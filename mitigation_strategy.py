@@ -1,8 +1,8 @@
 
 
 
-# this file contains the three various mitigation techniqques
-# that can be used by the defence layer, all traffic from the 
+# this file contains the three various mitigation techniques
+# that can be used by the defense layer, all traffic from the 
 # diagnosis layer comes into the mitigation layer which 
 # mitigates and creates flow rules etc.
 

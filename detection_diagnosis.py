@@ -53,6 +53,8 @@ def diagnose_UDP_Flood(udp_pkt):
 	if(detect_UDP_Flood(udp_pkt)):
 		UDP_Flood_traffic += udp_pkt.size
 
+	return UDP_Flood_traffic
+
 
 def diagnose_TCP_SYN_Flood(tcp_pkt):
 
@@ -60,6 +62,8 @@ def diagnose_TCP_SYN_Flood(tcp_pkt):
 
 	if(detect_TCP_SYN_Flood(udp_pkt)):
 		TCP_SYN_Flood_traffic += tcp_pkt.size
+
+	return TCP_SYN_Flood_traffic
 
 
 
