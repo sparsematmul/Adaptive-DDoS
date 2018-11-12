@@ -81,6 +81,14 @@ def diagnose_tarffic(pkt):
 		attack_traffic_tcp = diagnose_TCP_SYN_Flood(pkt)
 
 
+	traffic_stats["udp_flood"] = attack_traffic_udp
+	traffic_stats["dns_amp"] = attack_traffic_dns
+	traffic_stats["ntp"] = attack_traffic_ntp
+	traffic_stats["tcp_syn"] = attack_traffic_tcp
+
+	return diagnose_tarffic
+
+
 
 
 
