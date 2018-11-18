@@ -7,7 +7,7 @@
 
 def detect_UDP_Flood(udp_pkt):
 	prob = random.random(0.0,1)
-	if(prob > 0.9):
+	if(prob > UDP_DETEC_ACCURACY):
 		# attack packet received
 		return True
 
