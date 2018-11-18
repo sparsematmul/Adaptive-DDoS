@@ -7,5 +7,3 @@ class Packet(object):
 	def __init__(self):
 		self.packet_len = packet_len
 		self.protocol = protocol
-		self.dst = ingress_loc
-		
