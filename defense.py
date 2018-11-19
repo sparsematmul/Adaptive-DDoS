@@ -1,22 +1,28 @@
 
 
 
+import constants
+import detection_diagnosis
+import mitigation_strategy
+
+def ddosMiddlebox(pkt):
+	if(constants.DEFENSE_TYPE == "static"):
+		staticDefense(pkt)
+	elif(constants.DEFENSE_TYPE == "dynamic"):
+		dynamicDefense(pkt)
 
 
 
 
+def staticDefense(pkt):
 
 
-
-def static_defense(pkt):
-
-
-	traffic_stats = diagnose_traffic(pkt)
-	static_mitigation(ingress_locations)
+	detection_diagnosis.diagnoseTraffic(pkt)
+	static_mitigation()
 
 
 
 
-def dynamic_defense(pkt):
-	traffic_stats = diagnose_traffic(pkt)
-	dynamic_mitigation(ingress_locations, totalCapacity)
+def dynamicDefense(pkt):
+	detection_diagnosis.diagnoseTraffic(pkt)
+	mitigation_strategy.dynamic_mitigation()

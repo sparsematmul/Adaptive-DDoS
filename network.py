@@ -1,5 +1,6 @@
 # Maybe add the propogation delay later 
 
+import constants
 
 
 from defense import *
