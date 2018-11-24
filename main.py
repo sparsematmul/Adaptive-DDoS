@@ -13,7 +13,7 @@ class RepeatingThread(Thread):
         self.stopped = event
 
     def run(self):
-        while not self.stopped.wait(1):
+        while not self.stopped.wait(60):
             print("my thread")
             startNewWindow()
             # call a function
