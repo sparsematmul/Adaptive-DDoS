@@ -57,7 +57,7 @@ def readConfigureFile(file):
     globals.BUFF_SIZE = data.buffSize
     globals.VM_COMPUTE_CAP = data.VMCapacity
     globals.ISP_CAP = data.ISPCapacity
-    # globals.NUM_PORTS_VM = data.numPortsVM
+    globals.NUM_PORTS_VM = data.numPortsVM
     globals.ATTACKER_CAP = data.attackerCapacity
     globals.LEG_TRAFFIC_MODEL = data.legitimateTraffic
     globals.EPOCH_TIME = data.epochTime
