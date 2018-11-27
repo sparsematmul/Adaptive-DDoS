@@ -9,7 +9,10 @@ import mitigation_strategy
 
 def initializeAdaptive():
 
-	for i in xrange():
+	total_num_vms = math.floor(globals.ISP_CAP*1.0/globals.VM_COMPUTE_CAP)
+	for i in xrange(0, globals.INGRESS_LOC):
+		globals.NUM_OF_VM[i] = math.floor(total_num_vms/globals.INGRESS_LOC)
+
 
 
 def initialize(defenseType):

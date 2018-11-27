@@ -8,6 +8,7 @@ from attack_traffic import *
 import isp
 import queue
 import json
+import defense
 
 class RepeatingThread(Thread):
     def __init__(self, event, t, name, m):
@@ -56,7 +57,7 @@ def readConfigureFile(file):
     globals.BUFF_SIZE = data.buffSize
     globals.VM_COMPUTE_CAP = data.VMCapacity
     globals.ISP_CAP = data.ISPCapacity
-    globals.NUM_PORTS_VM = data.numPortsVM
+    # globals.NUM_PORTS_VM = data.numPortsVM
     globals.ATTACKER_CAP = data.attackerCapacity
     globals.LEG_TRAFFIC_MODEL = data.legitimateTraffic
     globals.EPOCH_TIME = data.epochTime
@@ -68,9 +69,15 @@ def readConfigureFile(file):
 def main():
 	
 
+	# read conf file to set globals
 	configurationFile = sys.argv[1]
 	readConfigureFile(configurationFile)
+
+	# initialize traffic stats data structures
 	isp.initializeISP()
+
+	# initialize capacity of ingress locations depending on the defense type
+	defense.initialize()
 
 	# start legitimate traffic thread
 	threading.Thread(target=flowGen).start()
@@ -87,9 +94,9 @@ def main():
 
 
 	#start dequeuing pkts after delay equivalent to processing delay
-	stopProcess = Event()
-	processingThread = RepeatingThread(stopProcess,globals.PROCESSING_DELAY,"packet processingThread",queue.processPacket)
-	processingThread.start()
+	# stopProcess = Event()
+	# processingThread = RepeatingThread(stopProcess,globals.PROCESSING_DELAY,"packet processingThread",queue.processPacket)
+	# processingThread.start()
 
 #	 this will stop the timer
 	# stopFlag.set()

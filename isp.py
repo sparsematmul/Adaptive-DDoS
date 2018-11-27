@@ -7,6 +7,7 @@ import math
 
 prevDropCount = [0] * constants.INGRESS_LOC
 prevReceiveCount = [0] * constants.INGRESS_LOC
+
 def initializeISP(buff):
 
 	for i in xrange(0,constants.INGRESS_LOC):
@@ -24,7 +25,7 @@ def initializeISP(buff):
 		constants.PEAK_TRAFFIC.append(0)
 		constants.MIN_TRAFFIC.append(float('inf'))
 
-		constants.BUFF_SIZE.append(buff)
+		# constants.BUFF_SIZE.append(buff)
 
 
 
