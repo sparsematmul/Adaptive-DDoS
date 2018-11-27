@@ -5,19 +5,19 @@
 # how much legtimate traffic is received at any given time
 # what is the latency observed and all those things will be modeled here
 import packet
-import constants
+import globals
 
-from network import *
-
-
-def flowGen(numPkts, mode):
-	if(mode == "simple"):
-		flowGenSimple(numPkts)
+import network
 
 
-def flowGenSimple(pkt_no):
+def flowGen():
+	if(globals.LEG_TRAFFIC_MODEL == "simple"):
+		flowGenSimple()
 
-	for i in range(1,pkt_no):
+
+def flowGenSimple():
+
+	for i in range(1,100000):
 		pkt = packet.Packet(20,"udp",2,0)
 		sendtoNetwork(pkt)
 

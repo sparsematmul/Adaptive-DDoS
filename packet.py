@@ -7,9 +7,11 @@ class Packet(object):
 #	2.packet protocol - TCP/ UDP
 #	3.packet destination - which ingress location it does to 
 
-	def __init__(self, packet_len,protocol,ingress_loc, attack_flag):
+	def __init__(self, packet_len,protocol,ingress_loc, attack_flag, target):
 		self.packet_len = packet_len
 		self.protocol = protocol
-		self.dst = ingress_loc
+		self.ingress = ingress_loc
 		self.attack_flag = attack_flag
+		self.dest = target
+		self.detection = "benign"
 		

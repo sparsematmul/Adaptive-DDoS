@@ -2,6 +2,7 @@ import time
 import packet 
 import threading
 import constants
+import 
 
 # lock = threading.Lock()
 
@@ -17,9 +18,8 @@ def enqueuePacket(pkt):
       dropPacket(pkt)
 
 
-def processePacket(pkt,processingdelay):
+def processePacket(pkt):
    if(receiveCounter > 0):
-      time.sleep(processingdelay)
       constants.BUFF_SIZE[pkt.dst] += pcket_len
       constants.processCounter[pkt.dst] +=1
 

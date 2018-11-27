@@ -10,7 +10,7 @@ prevReceiveCount = [0] * constants.INGRESS_LOC
 def initializeISP(buff):
 
 	for i in xrange(0,constants.INGRESS_LOC):
-		constants.CAPACITY.append(math.floor(constants.TOTAL_CAPACITY_ISP/constants.INGRESS_LOC))
+		# constants.CAPACITY.append(math.floor(constants.TOTAL_CAPACITY_ISP/constants.INGRESS_LOC))
 		constants.CURR_TRAFFIC_STATS.append({})
 		constants.CURR_TRAFFIC_STATS[i]["total"] = 0
 		constants.CURR_TRAFFIC_STATS[i]["udp_flood"] = 0

@@ -12,7 +12,6 @@ def sendtoNetwork(pkt):
 
 
 def receiveonNetwork(pkt):
-	ddosMiddlebox(pkt)
 	deliverPacket(pkt)
 	#detection part
 	#call receive pkt

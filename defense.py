@@ -1,9 +1,21 @@
 
 
 
-import constants
+import globals
 import detection_diagnosis
 import mitigation_strategy
+
+
+
+def initializeAdaptive():
+
+	for i in xrange():
+
+
+def initialize(defenseType):
+	if(defenseType == "adaptive")
+		initializeAdaptive()
+
 
 def ddosMiddlebox(pkt):
 	if(constants.DEFENSE_TYPE == "static"):
