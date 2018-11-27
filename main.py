@@ -54,7 +54,7 @@ def readConfigureFile(file):
     globals.DEFENSE_TYPE = data.defenseType
     globals.INGRESS_LOC = data.ingreeLoc
     globals.BUFF_SIZE = data.buffSize
-    globals.VM_CAP = data.VMCapacity
+    globals.VM_COMPUTE_CAP = data.VMCapacity
     globals.ISP_CAP = data.ISPCapacity
     globals.NUM_PORTS_VM = data.numPortsVM
     globals.ATTACKER_CAP = data.attackerCapacity
