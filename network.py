@@ -4,7 +4,7 @@ import globals
 
 
 from defense import *
-from queue import *
+import buffer
 
 def sendtoNetwork(pkt):
 	# pause till transmission delay
@@ -19,6 +19,6 @@ def receiveonNetwork(pkt):
 
 def deliverPacket(pkt):
 	
-	enqueuePacket(pkt)
+	buffer.enqueuePacket(pkt)
 
 

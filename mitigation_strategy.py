@@ -38,7 +38,7 @@ def changeCapacity(i,newCap):
 
 def dynamic_mitigation():
 
-	for i in xrange(0,globals.INGRESS_LOC):
+	for i in range(0,globals.INGRESS_LOC):
 		
 		if(globals.CURR_TRAFFIC_STATS[i]["total"] > globals.PEAK_TRAFFIC[i]):
 			globals.PEAK_TRAFFIC[i] = globals.CURR_TRAFFIC_STATUS[i]["total"]
@@ -54,7 +54,7 @@ def dynamic_mitigation():
 
 def adaptive_mitigation():
 
-	for i in xrange(0,globals.INGRESS_LOC):
+	for i in range(0,globals.INGRESS_LOC):
 		
 		if(globals.CURR_TRAFFIC_STATS[i]["total"] > globals.PEAK_TRAFFIC[i]):
 			globals.PEAK_TRAFFIC[i] = globals.CURR_TRAFFIC_STATUS[i]["total"]

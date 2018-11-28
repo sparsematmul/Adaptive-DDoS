@@ -1,5 +1,5 @@
 import globals 
-import queue
+# import queue
 
 
 class VM ():

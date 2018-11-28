@@ -15,12 +15,12 @@ def flowGen():
 		flowGenSimple()
 
 def sendPkts(n):
-	for i in xrange(0,n):
+	for i in range(0,n):
 		network.sendtoNetwork(packet.Packet(globals.PKT_LEN,"udp",0,0))
 
 def flowGenSimple():
 	fixedRate = 1000000
-	numPkts = fixedRate / globals.PKT_LEN
+	numPkts = int(fixedRate / globals.PKT_LEN)
 	while True:
 		sendPkts(numPkts)
 		time.sleep(1)
