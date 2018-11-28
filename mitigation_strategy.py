@@ -33,6 +33,20 @@ def dynamic_mitigation():
 		constants.CAPACITY[i] = random.uniform(constants.MIN_TRAFFIC[i],constants.PEAK_TRAFFIC[i])
 
 
+def adaptive_mitigation():
+
+	for i in xrange(0,constants.INGRESS_LOC):
+		
+		if(constants.CURR_TRAFFIC_STATS[i]["total"] > constants.PEAK_TRAFFIC[i]):
+			constants.PEAK_TRAFFIC[i] = constants.CURR_TRAFFIC_STATUS[i]["total"]
+
+
+		if(constants.CURR_TRAFFIC_STATS[i]["total"] < constants.MIN_TRAFFIC[i]):
+			constants.MIN_TRAFFIC[i] = constants.CURR_TRAFFIC_STATS[i]["total"]
+
+
+		constants.CAPACITY[i] = random.uniform(constants.MIN_TRAFFIC[i],constants.PEAK_TRAFFIC[i])
+
 	# set flow rules for new capacity in the controller
 	# create packet rules for attack packers which is essentially the static mitigation
 

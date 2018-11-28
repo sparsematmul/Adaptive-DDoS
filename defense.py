@@ -28,10 +28,12 @@ def initialize():
 
 
 def ddosMiddlebox(pkt):
-	if(constants.DEFENSE_TYPE == "static"):
-		staticDefense(pkt)
-	elif(constants.DEFENSE_TYPE == "dynamic"):
-		dynamicDefense(pkt)
+	if(globals.DEFENSE_TYPE == "static"):
+		staticDefense()
+	elif(globals.DEFENSE_TYPE == "dynamic"):
+		dynamicDefense()
+	elif(globals.DEFENSE_TYPE == "adaptive"):
+		adaptiveDefense()
 
 
 
@@ -48,3 +50,7 @@ def staticDefense(pkt):
 def dynamicDefense(pkt):
 	detection_diagnosis.diagnoseTraffic(pkt)
 	mitigation_strategy.dynamic_mitigation()
+
+def adaptiveDefense(pkt):
+	detection_diagnosis.diagnoseTraffic(pkt)
+
