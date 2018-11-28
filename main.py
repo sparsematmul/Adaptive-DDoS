@@ -1,12 +1,13 @@
 
 from threading import Thread,Timer,Event, Lock
+import logging
 import globals
 import log
 import sys
 import legitimate_traffic
 import attack_traffic
 import isp
-import logging
+
 import buffer
 import json
 import defense
@@ -23,9 +24,9 @@ class RepeatingThread(Thread):
         self.method = m
 
     def run(self):
-        logging.debug("Hello from thread %(self.threadName)")
-        logging.debug("Thread repeat time = %(self.waitiingTime)")
-        logging.debug("Thread Function = %(self.method)")
+        globals.DEBUG_LOGGER.debug("Hello from thread %(self.threadName)")
+        globals.DEBUG_LOGGER.debug("Thread repeat time = %(self.waitiingTime)")
+        globals.DEBUG_LOGGER.debug("Thread Function = %(self.method)")
         while not self.stopped.wait(self.waitiingTime):
             self.method()
             # print self.threadName
@@ -34,21 +35,21 @@ class RepeatingThread(Thread):
 
 def startNewWindow():
 
-	logging.INFO("STATS FOR WINDOW %(globals.WINDOW_COUNTER) - START")
+	globals.STATS_LOGGER.info("STATS FOR WINDOW %(str(globals.WINDOW_COUNTER)) - START")
 
 	for i in range(0,globals.INGRESS_LOC):
 		
 		globals.PREV_TRAFFIC_STATS[i]["total"] = globals.CURR_TRAFFIC_STATS[i]["total"]
-		logging.INFO("Total Traffic at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['total'])")
+		globals.STATS_LOGGER.info("Total Traffic at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['total'])")
 		globals.CURR_TRAFFIC_STATS[i]["total"] = 0
 
 		globals.PREV_TRAFFIC_STATS[i]["udp_flood"] = globals.CURR_TRAFFIC_STATS[i]["udp_flood"]
-		logging.INFO("Total UDP Flood at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['udp_flood'])")
+		globals.STATS_LOGGER.info("Total UDP Flood at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['udp_flood'])")
 
 		globals.CURR_TRAFFIC_STATS[i]["udp_flood"] = 0
 
 		globals.PREV_TRAFFIC_STATS[i]["tcp_syn"] = globals.CURR_TRAFFIC_STATS[i]["tcp_syn"]
-		logging.INFO("Total TCP Syn at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['tcp_syn'])")
+		globals.STATS_LOGGER.info("Total TCP Syn at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['tcp_syn'])")
 
 		globals.CURR_TRAFFIC_STATS[i]["tcp_syn"] = 0
 
@@ -57,7 +58,7 @@ def startNewWindow():
 	isp.countDroppedPackets()
 	isp.wastedResources()
 	
-	logging.INFO("STATS FOR WINDOW %(globals.WINDOW_COUNTER) - END \n\n")
+	globals.STATS_LOGGER.info("STATS FOR WINDOW %(str(globals.WINDOW_COUNTER)) - END \n\n")
 
 
 def readConfigureFile(file):
@@ -78,17 +79,17 @@ def readConfigureFile(file):
 	globals.EPOCH_TIME = data[u("epochTime")]
 	globals.PROCESSING_DELAY = data[u("processingDelay")]
 
-	logging.debug("Attack type = %(globals.ATTACK_TYPE)")
-	logging.debug("Defense type = %(globals.DEFENSE_TYPE)")
-	logging.debug("Number of Ingress Locations = %(globals.INGRESS_LOC)")
-	logging.debug("Buffer Size per queue = %(globals.BUFF_SIZE)")
-	logging.debug("Computation capacity per VM  = %(globals.VM_COMPUTE_CAP)")
-	logging.debug("Total ISP capacity = %(globals.ISP_CAP)")
-	logging.debug("Number of ports per VM = %(globals.NUM_PORTS_VM)")
-	logging.debug("Total Attacker capacity = %(globals.ATTACKER_CAP)")
-	logging.debug("Legitimate traffic model = %(globals.LEG_TRAFFIC_MODEL)")
-	logging.debug("EPOCH duration = %(globals.EPOCH_TIME)")
-	logging.debug("Processing delay = %(globals.PROCESSING_DELAY)")
+	globals.DEBUG_LOGGER.debug("Attack type = %(globals.ATTACK_TYPE)")
+	globals.DEBUG_LOGGER.debug("Defense type = %(globals.DEFENSE_TYPE)")
+	globals.DEBUG_LOGGER.debug("Number of Ingress Locations = %(globals.INGRESS_LOC)")
+	globals.DEBUG_LOGGER.debug("Buffer Size per queue = %(globals.BUFF_SIZE)")
+	globals.DEBUG_LOGGER.debug("Computation capacity per VM  = %(globals.VM_COMPUTE_CAP)")
+	globals.DEBUG_LOGGER.debug("Total ISP capacity = %(globals.ISP_CAP)")
+	globals.DEBUG_LOGGER.debug("Number of ports per VM = %(globals.NUM_PORTS_VM)")
+	globals.DEBUG_LOGGER.debug("Total Attacker capacity = %(globals.ATTACKER_CAP)")
+	globals.DEBUG_LOGGER.debug("Legitimate traffic model = %(globals.LEG_TRAFFIC_MODEL)")
+	globals.DEBUG_LOGGER.debug("EPOCH duration = %(globals.EPOCH_TIME)")
+	globals.DEBUG_LOGGER.debug("Processing delay = %(globals.PROCESSING_DELAY)")
 
 
 
@@ -99,9 +100,9 @@ def main():
 	# read conf file to set globals
 	log.loggingSetup()
 	
-	logging.debug('Hello from main')
+	globals.DEBUG_LOGGER.debug('Hello from main')
 
-	logging.debug('Reading configuration file')
+	globals.DEBUG_LOGGER.debug('Reading configuration file')
 	configurationFile = sys.argv[1]
 	
 	readConfigureFile(configurationFile)
@@ -109,33 +110,33 @@ def main():
 
 	# logging conf
 	
-	logging.debug('Initialize traffic stats data structures in ISP')
+	globals.DEBUG_LOGGER.debug('Initialize traffic stats data structures in ISP')
 	# initialize traffic stats data structures
 	isp.initializeISP()
 
 	# initialize capacity of ingress locations depending on the defense type
-	logging.debug('Initialize capacity of ingress locations depending on the defense type')
+	globals.DEBUG_LOGGER.debug('Initialize capacity of ingress locations depending on the defense type')
 	defense.initialize()
 
 	# start legitimate traffic thread
-	logging.debug('Start legitimate traffic thread')
+	globals.DEBUG_LOGGER.debug('Start legitimate traffic thread')
 	Thread(target=legitimate_traffic.flowGen).start()
 
 	# start attack traffic thread
-	logging.debug('Start attack traffic thread')
+	globals.DEBUG_LOGGER.debug('Start attack traffic thread')
 	# threading.Thread(target=attackTrafficGen, args=[attackerType]).start()
 	
 
 
 	# start per epoch stat collection for next epoch prediction
-	logging.debug('Start stats collection thread')
+	globals.DEBUG_LOGGER.debug('Start stats collection thread')
 	stopStats = Event()
 	statsThread = RepeatingThread(stopStats,globals.EPOCH_TIME,"stats per epoch collection thread",startNewWindow)
 	statsThread.start()
 
 
 	# start dequeuing pkts after delay equivalent to processing delay
-	logging.debug("Start packet processing thread")
+	globals.DEBUG_LOGGER.debug("Start packet processing thread")
 	stopProcess = Event()
 	processingThread = RepeatingThread(stopProcess,globals.PROCESSING_DELAY,"packet processingThread",buffer.processPacket)
 	processingThread.start()

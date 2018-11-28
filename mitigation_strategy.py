@@ -1,7 +1,7 @@
 
 import globals
 import random, math
-
+import logging
 # this file contains the three various mitigation techniques
 # that can be used by the defense layer, all traffic from the 
 # diagnosis layer comes into the mitigation layer which 
@@ -33,7 +33,7 @@ def changeCapacity(i,newCap):
 	globals.INGRESS_CAP[i].vmQueue = globals.NUM_PORTS_VM*globals.NUM_VMs[i]*globals.BUFF_SIZE
 	globals.INGRESS_CAP[i].numOfDequeuePkts = globals.NUM_PORTS_VM*globals.NUM_VMs[i]
 	globals.INGRESS_CAP[i].availableBuffSpace = newCap - (oldCap - globals.INGRESS_CAP[i].availableBuffSpace)
-	logging.debug("Function: change Capacity, capacity at ingress %(i) = %(newCap)")
+	globals.DEBUG_LOGGER.debug("Function: change Capacity, capacity at ingress %(i) = %(newCap)")
 
 
 

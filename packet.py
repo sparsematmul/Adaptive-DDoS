@@ -1,6 +1,6 @@
 # Packet definition
 import globals
-
+import logging
 class Packet(object):
 # Packet class contains the following:
 #	1.length of the packet 

@@ -5,7 +5,7 @@ import globals
 import defense
 import queue
 import math
-import logging
+# import logging
 
 # lock = threading.Lock()
 
@@ -19,7 +19,7 @@ def enqueuePacket(pkt):
       globals.RECEIVE_COUNTER[pkt.ingress] +=1
       Buffer.put(pkt)
       globals.INGRESS_CAP[pkt.ingress].availableBuffSpace -= pkt.packet_len
-      logging.debug("Function: enqueuePacket - Packet Added to Queue, Available Buffer space at %(pkt.ingress) = %(globals.INGRESS_CAP[pkt.ingress].availableBuffSpace)" )
+      globals.DEBUG_LOGGER.debug("Function: enqueuePacket - Packet Added to Queue, Available Buffer space at %(pkt.ingress) = %(globals.INGRESS_CAP[pkt.ingress].availableBuffSpace)" )
 
    else:
       dropPacket(pkt)
@@ -33,7 +33,7 @@ def processPacket():
          if(globals.INGRESS_CAP[i].numOfDequeuePkts*globals.PKT_LEN > globals.INGRESS_CAP[i].cap - globals.INGRESS_CAP[i].availableBuffSpace):
             pktsToDequeue = math.floor((globals.INGRESS_CAP[i].cap - globals.INGRESS_CAP[i].availableBuffSpace)*1.0/globals.PKT_LEN)
          globals.INGRESS_CAP[i].availableBuffSpace += globals.PKT_LEN*pktsToDequeue
-         logging.debug("Function: processPacket - %(pktsToDequeue) packets processed, Available Buffer space at %(pkt.ingress) = %(globals.INGRESS_CAP[pkt.ingress].availableBuffSpace)")
+         globals.DEBUG_LOGGER.debug("Function: processPacket - %(str(pktsToDequeue)) packets processed, Available Buffer space at %(pkt.ingress) = %(globals.INGRESS_CAP[pkt.ingress].availableBuffSpace)")
          for i in range(0,int(pktsToDequeue)):
             pkt = Buffer.get()
             defense.ddosMiddlebox(pkt)
@@ -46,11 +46,11 @@ def processPacket():
 def dropPacket(pkt):
    if (pkt.attack_flag == 0):
       globals.legitimateDropCounter[pkt.ingress]+=1
-      logging.debug("Function: dropPacket - Legitimate packet dropped, legitimateDropCounter = %(globals.legitimateDropCounter)")
+      globals.DEBUG_LOGGER.debug("Function: dropPacket - Legitimate packet dropped, legitimateDropCounter = %(globals.legitimateDropCounter)")
 
    else:
       globals.attackDropCounter[pkt.ingress] +=1
-      logging.debug("Function: dropPacket - Attack packet dropped, attackDropCounter = %(globals.attackDropCounter)")
+      globals.DEBUG_LOGGER.debug("Function: dropPacket - Attack packet dropped, attackDropCounter = %(globals.attackDropCounter)")
 
 
 

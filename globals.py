@@ -5,7 +5,7 @@
 # PROPAGATION_DELAY = 10
 # TRANSMISSION_DELAY = 0
 # PROCESSING_DELAY = 2
-
+import logging
 
 
 ATTACK_TYPE = "randIngress"

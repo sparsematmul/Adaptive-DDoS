@@ -2,7 +2,7 @@
 
 
 from globals import *
-
+import logging
 # let's fix 90% accuracy for each attack for now
 
 
