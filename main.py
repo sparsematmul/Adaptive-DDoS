@@ -3,13 +3,15 @@ from threading import Thread,Timer,Event, Lock
 import globals
 
 import sys
-from legitimate_traffic import *
-from attack_traffic import *
+import legitimate_traffic
+import attack_traffic
 import isp
 import queue
 import json
 import defense
+from io import open
 
+u = unicode
 class RepeatingThread(Thread):
     def __init__(self, event, t, name, m):
         Thread.__init__(self)
@@ -19,7 +21,7 @@ class RepeatingThread(Thread):
         self.method = m
 
     def run(self):
-        while not self.stopped.wait(t):
+        while not self.stopped.wait(self.waitiingTime):
             self.method()
             print self.threadName
             # call a function
@@ -43,25 +45,23 @@ def startNewWindow():
 	isp.countDroppedPackets()
 	isp.wastedResources()
 
-
-
-
 def readConfigureFile(file):
 	data = ""
-	with open(file, encoding='utf-8') as data_file:
-    	data = json.loads(data_file.read())
+	with open(file, encoding="utf-8") as data_file:
+		data = json.loads(data_file.read())
 
-    globals.ATTACK_TYPE = data.attackerType
-    globals.DEFENSE_TYPE = data.defenseType
-    globals.INGRESS_LOC = data.ingreeLoc
-    globals.BUFF_SIZE = data.buffSize
-    globals.VM_COMPUTE_CAP = data.VMCapacity
-    globals.ISP_CAP = data.ISPCapacity
-    globals.NUM_PORTS_VM = data.numPortsVM
-    globals.ATTACKER_CAP = data.attackerCapacity
-    globals.LEG_TRAFFIC_MODEL = data.legitimateTraffic
-    globals.EPOCH_TIME = data.epochTime
-    globals.PROCESSING_DELAY = data.processingDelay
+	# print data
+	globals.ATTACK_TYPE = data[u("attackerType")]
+	globals.DEFENSE_TYPE = data[u("defenseType")]
+	globals.INGRESS_LOC = data[u("ingreeLoc")]
+	globals.BUFF_SIZE = data[u("buffSize")]
+	globals.VM_COMPUTE_CAP = data[u("VMCapacity")]
+	globals.ISP_CAP = data[u("ISPCapacity")]
+	globals.NUM_PORTS_VM = data[u("numPortsVM")]
+	globals.ATTACKER_CAP = data[u("attackerCapacity")]
+	globals.LEG_TRAFFIC_MODEL = data[u("legitimateTraffic")]
+	globals.EPOCH_TIME = data[u("epochTime")]
+	globals.PROCESSING_DELAY = data[u("processingDelay")]
 
 
 
@@ -80,7 +80,7 @@ def main():
 	defense.initialize()
 
 	# start legitimate traffic thread
-	threading.Thread(target=flowGen).start()
+	Thread(target=legitimate_traffic.flowGen).start()
 
 	# start attack traffic thread
 	# threading.Thread(target=attackTrafficGen, args=[attackerType]).start()
@@ -93,10 +93,10 @@ def main():
 	statsThread.start()
 
 
-	#start dequeuing pkts after delay equivalent to processing delay
-	# stopProcess = Event()
-	# processingThread = RepeatingThread(stopProcess,globals.PROCESSING_DELAY,"packet processingThread",queue.processPacket)
-	# processingThread.start()
+	# start dequeuing pkts after delay equivalent to processing delay
+	stopProcess = Event()
+	processingThread = RepeatingThread(stopProcess,globals.PROCESSING_DELAY,"packet processingThread",queue.processPacket)
+	processingThread.start()
 
 #	 this will stop the timer
 	# stopFlag.set()

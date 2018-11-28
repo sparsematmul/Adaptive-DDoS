@@ -8,7 +8,7 @@ import math
 prevDropCount = [0] * constants.INGRESS_LOC
 prevReceiveCount = [0] * constants.INGRESS_LOC
 
-def initializeISP(buff):
+def initializeISP():
 
 	for i in xrange(0,constants.INGRESS_LOC):
 		# constants.CAPACITY.append(math.floor(constants.TOTAL_CAPACITY_ISP/constants.INGRESS_LOC))
@@ -29,21 +29,21 @@ def initializeISP(buff):
 
 
 
-
+# def latencyIncurred():
 
 def countDroppedPackets():
 
 	global prevDropCount
-	for i in xrange(0,constants.INGRESS_LOC):
+	for i in xrange(0,globals.INGRESS_LOC):
 		print constants.legitimateDropCounter[i] - prevDropCount[i]
 		prevDropCount[i] = constants.legitimateDropCounter[i] 
 
-def wastedResources(pkt):
+def wastedResources():
 
-	for i in xrange(0,constants.INGRESS_LOC):
-		receivedPktsPerWIndow =  constants.receiveCounter[i] - prevReceiveCount[i]
-		prevReceiveCount[i] = constants.receiveCounter[i] 
-		wastedCap = receivedPktsPerWIndow - CAPACITY[i]
+	for i in xrange(0,globals.INGRESS_LOC):
+		receivedPktsPerWIndow =  globals.receiveCounter[i] - prevReceiveCount[i]
+		prevReceiveCount[i] = globals.receiveCounter[i] 
+		wastedCap = receivedPktsPerWIndow*globals.PKT_LEN - CAPACITY[i]
 		print wastedCap
 
 

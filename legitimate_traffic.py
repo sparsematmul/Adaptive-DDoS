@@ -18,8 +18,8 @@ def flowGen():
 def flowGenSimple():
 
 	for i in range(1,100000):
-		pkt = packet.Packet(20,"udp",2,0)
-		sendtoNetwork(pkt)
+		pkt = packet.Packet(20,"udp",0,0)
+		network.sendtoNetwork(pkt)
 
 
 
