@@ -23,6 +23,8 @@ class RepeatingThread(Thread):
 
     def run(self):
         logging.debug("Hello from thread %(self.threadName)")
+        logging.debug("Thread repeat time = %(self.waitiingTime)")
+        logging.debug("Thread Function = %(self.method)")
         while not self.stopped.wait(self.waitiingTime):
             self.method()
             # print self.threadName

@@ -11,6 +11,7 @@ import network
 
 
 def flowGen():
+	logging.debug("Function: flowGen")
 	if(globals.LEG_TRAFFIC_MODEL == "simple"):
 		flowGenSimple()
 
@@ -19,6 +20,7 @@ def sendPkts(n):
 		network.sendtoNetwork(packet.Packet(globals.PKT_LEN,"udp",0,0))
 
 def flowGenSimple():
+	logging.debug("Function: flowGenSimple")
 	fixedRate = 1000000
 	numPkts = int(fixedRate / globals.PKT_LEN)
 	while True:

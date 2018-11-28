@@ -1,16 +1,14 @@
 
 import logging
-
+import globals
 
 
 
 def loggingSetup():
-	statsLogger = logging.getLogger('statsLogger')
+	
 
-	debugLogger = logging.getLogger('debugLogger')
-
-	debugLogger.setLevel(logging.DEBUG)
-	statsLogger.setLevel(logging.INFO)
+	globals.DEBUG_LOGGER.setLevel(logging.DEBUG)
+	globals.STATS_LOGGER.setLevel(logging.INFO)
 	# create file handler which logs even debug messages
 	fh = logging.FileHandler('debug.log')
 	fh.setLevel(logging.DEBUG)
@@ -22,6 +20,6 @@ def loggingSetup():
 	ch.setFormatter(formatter)
 	fh.setFormatter(formatter)
 	# add the handlers to logger
-	statsLogger.addHandler(ch)
-	debugLogger.addHandler(fh)
+	globals.STATS_LOGGER.addHandler(ch)
+	globals.DEBUG_LOGGER.addHandler(fh)
 

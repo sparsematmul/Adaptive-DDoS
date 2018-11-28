@@ -42,3 +42,11 @@ PKT_LEN = 5
 RECEIVE_COUNTER = [0] * INGRESS_LOC
 legitimateDropCounter = [0] * INGRESS_LOC
 processCounter = [0] * INGRESS_LOC
+
+
+STATS_LOGGER = logging.getLogger('statsLogger')
+DEBUG_LOGGER = logging.getLogger('debugLogger')
+
+
+
+

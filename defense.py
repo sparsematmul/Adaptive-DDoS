@@ -9,7 +9,7 @@ import math
 
 
 def initializeAdaptive():
-
+	logging.debug("Function: initializeAdaptive - Initialize inital capapcity of ingress locations")
 	total_num_vms = math.floor(globals.ISP_CAP*1.0/globals.VM_COMPUTE_CAP)
 	for i in range(0, globals.INGRESS_LOC):
 		globals.NUM_VMs.append(math.floor(total_num_vms*1.0//globals.INGRESS_LOC))
@@ -17,6 +17,8 @@ def initializeAdaptive():
 		dequeuePkts = globals.NUM_PORTS_VM*globals.NUM_VMs[i]
 		vmCapacity = globals.NUM_VMs[i]*globals.VM_COMPUTE_CAP
 		globals.INGRESS_CAP.append(VM.VM(vmCapacity,queueSize,dequeuePkts,vmCapacity))
+		logging.debug("Function: initializeAdaptive - Inital capapcity of ingress %(i) is ")
+
 		# globals.INGRESS_CAP[i] = math.floor(total_num_vms/globals.INGRESS_LOC)
 
 
