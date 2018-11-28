@@ -4,7 +4,7 @@ import threading
 import globals
 import defense
 import Queue
-
+import math
 # lock = threading.Lock()
 
 queue = Queue.Queue()
@@ -29,15 +29,15 @@ def processPacket():
       pktsToDequeue = globals.INGRESS_CAP[i].numOfDequeuePkts
       if(globals.RECEIVE_COUNTER[i] > 0):
          if(globals.INGRESS_CAP[i].numOfDequeuePkts*globals.PKT_LEN > globals.INGRESS_CAP[i].cap - globals.INGRESS_CAP[i].availableBuffSpace):
-            pktsToDequeue = math.floor((globals.INGRESS_CAP[i].cap - globals.INGRESS_CAP[i].availableBuffSpace)*1.0/PKT_LEN)
+            pktsToDequeue = math.floor((globals.INGRESS_CAP[i].cap - globals.INGRESS_CAP[i].availableBuffSpace)*1.0/globals.PKT_LEN)
          globals.INGRESS_CAP[i].availableBuffSpace += globals.PKT_LEN*pktsToDequeue
-         for i in xrange(0,pktsToDequeue):
+         for i in xrange(0,int(pktsToDequeue)):
             pkt = queue.get()
             defense.ddosMiddlebox(pkt)
          
    
    
-      # constants.processCounter[pkt.dst] += INGRESS_CAP[pkt.dst].numOfDequeuePkts
+      # globals.processCounter[pkt.dst] += INGRESS_CAP[pkt.dst].numOfDequeuePkts
 
 
 def dropPacket(pkt):

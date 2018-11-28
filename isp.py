@@ -2,30 +2,30 @@
 # including the number of ingress locations,
 # the total capacity of the ISP
 
-import constants
+import globals
 import math
 
-prevDropCount = [0] * constants.INGRESS_LOC
-prevReceiveCount = [0] * constants.INGRESS_LOC
+prevDropCount = [0] * globals.INGRESS_LOC
+prevReceiveCount = [0] * globals.INGRESS_LOC
 
 def initializeISP():
 
-	for i in xrange(0,constants.INGRESS_LOC):
-		# constants.CAPACITY.append(math.floor(constants.TOTAL_CAPACITY_ISP/constants.INGRESS_LOC))
-		constants.CURR_TRAFFIC_STATS.append({})
-		constants.CURR_TRAFFIC_STATS[i]["total"] = 0
-		constants.CURR_TRAFFIC_STATS[i]["udp_flood"] = 0
-		constants.CURR_TRAFFIC_STATS[i]["tcp_syn"] = 0
+	for i in xrange(0,globals.INGRESS_LOC):
+		# globals.CAPACITY.append(math.floor(globals.TOTAL_CAPACITY_ISP/globals.INGRESS_LOC))
+		globals.CURR_TRAFFIC_STATS.append({})
+		globals.CURR_TRAFFIC_STATS[i]["total"] = 0
+		globals.CURR_TRAFFIC_STATS[i]["udp_flood"] = 0
+		globals.CURR_TRAFFIC_STATS[i]["tcp_syn"] = 0
 
-		constants.PREV_TRAFFIC_STATS.append({})
-		constants.PREV_TRAFFIC_STATS[i]["total"] = 0
-		constants.PREV_TRAFFIC_STATS[i]["udp_flood"] = 0
-		constants.PREV_TRAFFIC_STATS[i]["tcp_syn"] = 0
+		globals.PREV_TRAFFIC_STATS.append({})
+		globals.PREV_TRAFFIC_STATS[i]["total"] = 0
+		globals.PREV_TRAFFIC_STATS[i]["udp_flood"] = 0
+		globals.PREV_TRAFFIC_STATS[i]["tcp_syn"] = 0
 
-		constants.PEAK_TRAFFIC.append(0)
-		constants.MIN_TRAFFIC.append(float('inf'))
+		globals.PEAK_TRAFFIC.append(0)
+		globals.MIN_TRAFFIC.append(float('inf'))
 
-		# constants.BUFF_SIZE.append(buff)
+		# globals.BUFF_SIZE.append(buff)
 
 
 
@@ -35,15 +35,15 @@ def countDroppedPackets():
 
 	global prevDropCount
 	for i in xrange(0,globals.INGRESS_LOC):
-		print constants.legitimateDropCounter[i] - prevDropCount[i]
-		prevDropCount[i] = constants.legitimateDropCounter[i] 
+		print globals.legitimateDropCounter[i] - prevDropCount[i]
+		prevDropCount[i] = globals.legitimateDropCounter[i] 
 
 def wastedResources():
 
 	for i in xrange(0,globals.INGRESS_LOC):
-		receivedPktsPerWIndow =  globals.receiveCounter[i] - prevReceiveCount[i]
-		prevReceiveCount[i] = globals.receiveCounter[i] 
-		wastedCap = receivedPktsPerWIndow*globals.PKT_LEN - CAPACITY[i]
+		receivedPktsPerWIndow =  globals.RECEIVE_COUNTER[i] - prevReceiveCount[i]
+		prevReceiveCount[i] = globals.RECEIVE_COUNTER[i] 
+		wastedCap = receivedPktsPerWIndow*globals.PKT_LEN - globals.INGRESS_CAP[i].cap
 		print wastedCap
 
 

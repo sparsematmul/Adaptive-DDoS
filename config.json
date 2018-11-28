@@ -8,6 +8,6 @@
   "numPortsVM": 20,
   "attackerCapacity": 4000,
   "legitimateTraffic": "simple",
-  "epochTime": 60,
+  "epochTime": 10,
   "processingDelay": 0.1
 }

@@ -29,19 +29,19 @@ class RepeatingThread(Thread):
 
 def startNewWindow():
 
-	for i in xrange(0,constants.INGRESS_LOC):
+	for i in xrange(0,globals.INGRESS_LOC):
 		
-		globals.PREV_TRAFFIC_STATS[i]["total"] = constants.CURR_TRAFFIC_STATS[i]["total"]
+		globals.PREV_TRAFFIC_STATS[i]["total"] = globals.CURR_TRAFFIC_STATS[i]["total"]
 		globals.CURR_TRAFFIC_STATS[i]["total"] = 0
 
-		globals.PREV_TRAFFIC_STATS[i]["udp_flood"] = constants.CURR_TRAFFIC_STATS[i]["udp_flood"]
+		globals.PREV_TRAFFIC_STATS[i]["udp_flood"] = globals.CURR_TRAFFIC_STATS[i]["udp_flood"]
 		globals.CURR_TRAFFIC_STATS[i]["udp_flood"] = 0
 
-		globals.PREV_TRAFFIC_STATS[i]["tcp_syn"] = constants.CURR_TRAFFIC_STATS[i]["tcp_syn"]
+		globals.PREV_TRAFFIC_STATS[i]["tcp_syn"] = globals.CURR_TRAFFIC_STATS[i]["tcp_syn"]
 		globals.CURR_TRAFFIC_STATS[i]["tcp_syn"] = 0
 
 	
-	constants.WINDOW_COUNTER += 1
+	globals.WINDOW_COUNTER += 1
 	isp.countDroppedPackets()
 	isp.wastedResources()
 

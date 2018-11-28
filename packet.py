@@ -1,5 +1,5 @@
 # Packet definition
-import constants
+import globals
 
 class Packet(object):
 # Packet class contains the following:

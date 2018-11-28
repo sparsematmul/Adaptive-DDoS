@@ -1,7 +1,7 @@
 
 
 
-from constants import *
+from globals import *
 
 # let's fix 90% accuracy for each attack for now
 
@@ -9,7 +9,7 @@ from constants import *
 
 def detect_UDP_Flood(udp_pkt):
 	rnd = random.random(0.0,1)
-	if(rnd < constants.UDP_DETECT_ACCURACY):
+	if(rnd < globals.UDP_DETECT_ACCURACY):
 		# attack packet received
 		return True
 
@@ -20,7 +20,7 @@ def detect_UDP_Flood(udp_pkt):
 
 def detect_TCP_SYN_Flood(tcp_pkt):
 	rnd = random.random(0.0,1)
-	if(rnd < constants.TCP_SYN_DETECT_ACCURACY):
+	if(rnd < globals.TCP_SYN_DETECT_ACCURACY):
 		# attack packet received
 		return True
 
