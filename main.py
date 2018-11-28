@@ -11,6 +11,7 @@ import buffer
 import json
 import defense
 from io import open
+import logging
 
 u = str
 class RepeatingThread(Thread):
@@ -33,21 +34,31 @@ class RepeatingThread(Thread):
 
 def startNewWindow():
 
+	logging.INFO("STATS FOR WINDOW %(globals.WINDOW_COUNTER) - START")
+
 	for i in range(0,globals.INGRESS_LOC):
 		
 		globals.PREV_TRAFFIC_STATS[i]["total"] = globals.CURR_TRAFFIC_STATS[i]["total"]
+		logging.INFO("Total Traffic at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['total'])")
 		globals.CURR_TRAFFIC_STATS[i]["total"] = 0
 
 		globals.PREV_TRAFFIC_STATS[i]["udp_flood"] = globals.CURR_TRAFFIC_STATS[i]["udp_flood"]
+		logging.INFO("Total UDP Flood at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['udp_flood'])")
+
 		globals.CURR_TRAFFIC_STATS[i]["udp_flood"] = 0
 
 		globals.PREV_TRAFFIC_STATS[i]["tcp_syn"] = globals.CURR_TRAFFIC_STATS[i]["tcp_syn"]
+		logging.INFO("Total TCP Syn at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['tcp_syn'])")
+
 		globals.CURR_TRAFFIC_STATS[i]["tcp_syn"] = 0
 
 	
 	globals.WINDOW_COUNTER += 1
 	isp.countDroppedPackets()
 	isp.wastedResources()
+	
+	logging.INFO("STATS FOR WINDOW %(globals.WINDOW_COUNTER) - END \n\n")
+
 
 def readConfigureFile(file):
 	data = ""

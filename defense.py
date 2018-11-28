@@ -17,7 +17,7 @@ def initializeAdaptive():
 		dequeuePkts = globals.NUM_PORTS_VM*globals.NUM_VMs[i]
 		vmCapacity = globals.NUM_VMs[i]*globals.VM_COMPUTE_CAP
 		globals.INGRESS_CAP.append(VM.VM(vmCapacity,queueSize,dequeuePkts,vmCapacity))
-		logging.debug("Function: initializeAdaptive - Inital capapcity of ingress %(i) is ")
+		logging.debug("Function: initializeAdaptive - Initial capacity of ingress %(i) is %(vmCapacity)")
 
 		# globals.INGRESS_CAP[i] = math.floor(total_num_vms/globals.INGRESS_LOC)
 
