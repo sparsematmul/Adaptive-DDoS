@@ -20,8 +20,8 @@ import logging
 
 	# for i in xrange(0, globals.INGRESS_LOC):
 	# 	globals.NUM_VMs.append(math.floor(total_num_vms*1.0//globals.INGRESS_LOC))
-	# 	queueSize = globals.NUM_PORTS_VM*globals.NUM_VMs[i]*globals.BUFF_SIZE
-	# 	dequeuePkts = globals.NUM_PORTS_VM*globals.NUM_VMs[i]
+	# 	queueSize = globals.NUM_NIC_VM*globals.NUM_VMs[i]*globals.BUFF_SIZE
+	# 	dequeuePkts = globals.NUM_NIC_VM*globals.NUM_VMs[i]
 	# 	vmCapacity = globals.NUM_VMs[i]*globals.VM_COMPUTE_CAP
 	# 	globals.INGRESS_CAP.append(VM.VM(vmCapacity,queueSize,dequeuePkts,vmCapacity))
 
@@ -31,8 +31,8 @@ def changeCapacity(i,newCap):
 	globals.LOCK_INGRESS_CAP[i].acquire()
 	oldCap = globals.INGRESS_CAP[i].cap
 	globals.INGRESS_CAP[i].cap = newCap
-	globals.INGRESS_CAP[i].vmQueue = globals.NUM_PORTS_VM*globals.NUM_VMs[i]*globals.BUFF_SIZE
-	globals.INGRESS_CAP[i].numOfDequeuePkts = globals.NUM_PORTS_VM*globals.NUM_VMs[i]
+	globals.INGRESS_CAP[i].vmQueue = globals.NUM_NIC_VM*globals.NUM_VMs[i]*globals.BUFF_SIZE
+	globals.INGRESS_CAP[i].numOfDequeuePkts = globals.NUM_NIC_VM*globals.NUM_VMs[i]
 	globals.INGRESS_CAP[i].availableBuffSpace = newCap - (oldCap - globals.INGRESS_CAP[i].availableBuffSpace)
 	globals.DEBUG_LOGGER.debug(f"Function: change Capacity, capacity at ingress {i} = {newCap}")
 	globals.LOCK_INGRESS_CAP[i].release()

@@ -21,7 +21,7 @@ def sendPkts(n):
 
 def flowGenSimple():
 	globals.DEBUG_LOGGER.debug("Function: flowGenSimple")
-	fixedRate = 1000000
+	fixedRate = 1000000 # 1 Mbps
 	numPkts = int(fixedRate / globals.PKT_LEN)
 	while True:
 		sendPkts(numPkts)

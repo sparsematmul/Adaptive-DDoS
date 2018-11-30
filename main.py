@@ -72,11 +72,11 @@ def readConfigureFile(file):
 	globals.ATTACK_TYPE = data[u("attackerType")]
 	globals.DEFENSE_TYPE = data[u("defenseType")]
 	globals.INGRESS_LOC = data[u("ingreeLoc")]
-	globals.BUFF_SIZE = data[u("buffSize")] * 1000000 #conversion to bits
-	globals.VM_COMPUTE_CAP = data[u("VMCapacity")] * 1000000 #conversion to bits
-	globals.ISP_CAP = data[u("ISPCapacity")] * 1000000000 # conversion to bits
-	globals.NUM_PORTS_VM = data[u("numPortsVM")]
-	globals.ATTACKER_CAP = data[u("attackerCapacity")] * 1000000000 #conversion to bits
+	globals.BUFF_SIZE = data[u("buffSize")] * 8 #conversion to Mbits (Mbytes)
+	globals.VM_COMPUTE_CAP = data[u("VMCapacity")] * 1000 #conversion to Mbits (Gbps)
+	globals.ISP_CAP = data[u("ISPCapacity")] * 1000 # conversion to Mbits (Gbps)
+	globals.NUM_NIC_VM = data[u("numNICsVM")]
+	globals.ATTACKER_CAP = data[u("attackerCapacity")] * 1000 #conversion to Mbits
 	globals.LEG_TRAFFIC_MODEL = data[u("legitimateTraffic")]
 	globals.EPOCH_TIME = data[u("epochTime")]	# seconds
 	globals.PROCESSING_DELAY = data[u("processingDelay")]	# seconds
@@ -87,7 +87,7 @@ def readConfigureFile(file):
 	globals.DEBUG_LOGGER.debug(f"Buffer Size per queue = {globals.BUFF_SIZE/1000000} Mb")
 	globals.DEBUG_LOGGER.debug(f"Computation capacity per VM  = {globals.VM_COMPUTE_CAP/1000000} Mbps")
 	globals.DEBUG_LOGGER.debug(f"Total ISP capacity = {globals.ISP_CAP/1000000000} Gbps")
-	globals.DEBUG_LOGGER.debug(f"Number of ports per VM = {globals.NUM_PORTS_VM}")
+	globals.DEBUG_LOGGER.debug(f"Number of ports per VM = {globals.NUM_NIC_VM}")
 	globals.DEBUG_LOGGER.debug(f"Total Attacker capacity = {globals.ATTACKER_CAP/1000000000} Gbps")
 	globals.DEBUG_LOGGER.debug(f"Legitimate traffic model = {globals.LEG_TRAFFIC_MODEL}")
 	globals.DEBUG_LOGGER.debug(f"EPOCH duration = {globals.EPOCH_TIME} seconds")
