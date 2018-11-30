@@ -7,7 +7,7 @@ import sys
 import legitimate_traffic
 import attack_traffic
 import isp
-
+import mylock
 import buffer
 import json
 import defense
@@ -39,19 +39,23 @@ def startNewWindow():
 
 	for i in range(0,globals.INGRESS_LOC):
 		
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["total"].acquire()
 		globals.PREV_TRAFFIC_STATS[i]["total"] = globals.CURR_TRAFFIC_STATS[i]["total"]
 		globals.STATS_LOGGER.info("Total Traffic at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['total'])")
 		globals.CURR_TRAFFIC_STATS[i]["total"] = 0
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["total"].release()
 
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["udp_flood"].acquire()
 		globals.PREV_TRAFFIC_STATS[i]["udp_flood"] = globals.CURR_TRAFFIC_STATS[i]["udp_flood"]
 		globals.STATS_LOGGER.info("Total UDP Flood at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['udp_flood'])")
-
 		globals.CURR_TRAFFIC_STATS[i]["udp_flood"] = 0
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["udp_flood"].release()
 
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["tcp_syn"].acquire()
 		globals.PREV_TRAFFIC_STATS[i]["tcp_syn"] = globals.CURR_TRAFFIC_STATS[i]["tcp_syn"]
 		globals.STATS_LOGGER.info("Total TCP Syn at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['tcp_syn'])")
-
 		globals.CURR_TRAFFIC_STATS[i]["tcp_syn"] = 0
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["tcp_syn"].release()
 
 	
 	globals.WINDOW_COUNTER += 1
@@ -118,6 +122,8 @@ def main():
 	globals.DEBUG_LOGGER.debug('Initialize capacity of ingress locations depending on the defense type')
 	defense.initialize()
 
+
+	mylock.initializeLocks()
 	# start legitimate traffic thread
 	globals.DEBUG_LOGGER.debug('Start legitimate traffic thread')
 	Thread(target=legitimate_traffic.flowGen).start()

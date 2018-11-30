@@ -41,6 +41,7 @@ def dynamic_mitigation():
 
 	for i in range(0,globals.INGRESS_LOC):
 		
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["total"].acquire()
 		if(globals.CURR_TRAFFIC_STATS[i]["total"] * globals.PKT_LEN > globals.PEAK_TRAFFIC[i]):
 			globals.PEAK_TRAFFIC[i] = globals.CURR_TRAFFIC_STATUS[i]["total"] * globals.PKT_LEN
 
@@ -51,12 +52,13 @@ def dynamic_mitigation():
 
 		# globals.INGRESS_CAP[i] = random.uniform(globals.MIN_TRAFFIC[i],globals.PEAK_TRAFFIC[i])
 		changeCapacity(i,random.uniform(globals.MIN_TRAFFIC[i],globals.PEAK_TRAFFIC[i]))
-
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["total"].release()
 
 def adaptive_mitigation():
 
 	for i in range(0,globals.INGRESS_LOC):
 		
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["total"].acquire()
 		if(globals.CURR_TRAFFIC_STATS[i]["total"] > globals.PEAK_TRAFFIC[i]):
 			globals.PEAK_TRAFFIC[i] = globals.CURR_TRAFFIC_STATUS[i]["total"]
 
@@ -65,7 +67,8 @@ def adaptive_mitigation():
 			globals.MIN_TRAFFIC[i] = globals.CURR_TRAFFIC_STATS[i]["total"]
 
 
-		globals.CAPACITY[i] = random.uniform(globals.MIN_TRAFFIC[i],globals.PEAK_TRAFFIC[i])
+		changeCapacity(i,random.uniform(globals.MIN_TRAFFIC[i],globals.PEAK_TRAFFIC[i]))
+		globals.LOCK_CURR_TRAFFIC_STATS[i]["total"].release()
 
 	# set flow rules for new capacity in the controller
 	# create packet rules for attack packers which is essentially the static mitigation

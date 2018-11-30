@@ -38,8 +38,12 @@ def countDroppedPackets():
 
 	global prevDropCount
 	for i in range(0,globals.INGRESS_LOC):
+		
+		globals.LOCK_legitimateDropCounter[i].acquire()
 		dropped = globals.legitimateDropCounter[i] - prevDropCount[i]
 		prevDropCount[i] = globals.legitimateDropCounter[i]
+		globals.LOCK_legitimateDropCounter[i].release()
+		
 		globals.DEBUG_LOGGER.debug("Function: countDroppedPackets, dropped Packets at ingress %(i) are %(dropped)")
 		globals.STATS_LOGGER.info("Dropped Packets at ingress %(i) = %(dropped)")
 
@@ -49,9 +53,16 @@ def countDroppedPackets():
 def wastedResources():
 
 	for i in range(0,globals.INGRESS_LOC):
+		
+		globals.LOCK_RECEIVE_COUNTER[i].acquire()
 		receivedPktsPerWIndow =  globals.RECEIVE_COUNTER[i] - prevReceiveCount[i]
 		prevReceiveCount[i] = globals.RECEIVE_COUNTER[i] 
+		globals.LOCK_RECEIVE_COUNTER[i].release()
+
+		globals.LOCK_INGRESS_CAP[i].acquire()
 		wastedCap = receivedPktsPerWIndow*globals.PKT_LEN - globals.INGRESS_CAP[i].cap
+		globals.LOCK_INGRESS_CAP[i].release(
+			)
 		globals.DEBUG_LOGGER.debug("Function: wastedResources, wasted resources at ingress %(i) are %(wastedCap)")
 		globals.STATS_LOGGER.info("Wasted resources at ingress %(i) = %(wastedCap)")
 

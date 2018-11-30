@@ -47,6 +47,13 @@ processCounter = [0] * INGRESS_LOC
 STATS_LOGGER = logging.getLogger('statsLogger')
 DEBUG_LOGGER = logging.getLogger('debugLogger')
 
+LOCK_CURR_TRAFFIC_STATS = []
+LOCK_legitimateDropCounter = []
+LOCK_RECEIVE_COUNTER = []
 
+LOCK_INGRESS_AVAILABLE_CAP = []
+LOCK_INGRESS_CAP = []
+
+LOCK_NUM_VM = []
 
 
