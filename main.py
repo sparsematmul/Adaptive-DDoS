@@ -36,7 +36,7 @@ class RepeatingThread(Thread):
 
 def startNewWindow():
 
-	defense.mitigate()
+	# defense.mitigate()
 	globals.STATS_LOGGER.info(f"STATS FOR WINDOW {globals.WINDOW_COUNTER} - START")
 
 	for i in range(0,globals.INGRESS_LOC):
@@ -72,26 +72,26 @@ def readConfigureFile(file):
 	globals.ATTACK_TYPE = data[u("attackerType")]
 	globals.DEFENSE_TYPE = data[u("defenseType")]
 	globals.INGRESS_LOC = data[u("ingreeLoc")]
-	globals.BUFF_SIZE = data[u("buffSize")]
-	globals.VM_COMPUTE_CAP = data[u("VMCapacity")]
-	globals.ISP_CAP = data[u("ISPCapacity")]
+	globals.BUFF_SIZE = data[u("buffSize")] * 1000000 #conversion to bits
+	globals.VM_COMPUTE_CAP = data[u("VMCapacity")] * 1000000 #conversion to bits
+	globals.ISP_CAP = data[u("ISPCapacity")] * 1000000000 # conversion to bits
 	globals.NUM_PORTS_VM = data[u("numPortsVM")]
-	globals.ATTACKER_CAP = data[u("attackerCapacity")]
+	globals.ATTACKER_CAP = data[u("attackerCapacity")] * 1000000000 #conversion to bits
 	globals.LEG_TRAFFIC_MODEL = data[u("legitimateTraffic")]
-	globals.EPOCH_TIME = data[u("epochTime")]
-	globals.PROCESSING_DELAY = data[u("processingDelay")]
+	globals.EPOCH_TIME = data[u("epochTime")]	# seconds
+	globals.PROCESSING_DELAY = data[u("processingDelay")]	# seconds
 
 	globals.DEBUG_LOGGER.debug(f"Attack type = {globals.ATTACK_TYPE}")
 	globals.DEBUG_LOGGER.debug(f"Defense type = {globals.DEFENSE_TYPE}")
 	globals.DEBUG_LOGGER.debug(f"Number of Ingress Locations = {globals.INGRESS_LOC}")
-	globals.DEBUG_LOGGER.debug(f"Buffer Size per queue = {globals.BUFF_SIZE}")
-	globals.DEBUG_LOGGER.debug(f"Computation capacity per VM  = {globals.VM_COMPUTE_CAP}")
-	globals.DEBUG_LOGGER.debug(f"Total ISP capacity = {globals.ISP_CAP}")
+	globals.DEBUG_LOGGER.debug(f"Buffer Size per queue = {globals.BUFF_SIZE/1000000} Mb")
+	globals.DEBUG_LOGGER.debug(f"Computation capacity per VM  = {globals.VM_COMPUTE_CAP/1000000} Mbps")
+	globals.DEBUG_LOGGER.debug(f"Total ISP capacity = {globals.ISP_CAP/1000000000} Gbps")
 	globals.DEBUG_LOGGER.debug(f"Number of ports per VM = {globals.NUM_PORTS_VM}")
-	globals.DEBUG_LOGGER.debug(f"Total Attacker capacity = {globals.ATTACKER_CAP}")
+	globals.DEBUG_LOGGER.debug(f"Total Attacker capacity = {globals.ATTACKER_CAP/1000000000} Gbps")
 	globals.DEBUG_LOGGER.debug(f"Legitimate traffic model = {globals.LEG_TRAFFIC_MODEL}")
-	globals.DEBUG_LOGGER.debug(f"EPOCH duration = {globals.EPOCH_TIME}")
-	globals.DEBUG_LOGGER.debug(f"Processing delay = {globals.PROCESSING_DELAY}")
+	globals.DEBUG_LOGGER.debug(f"EPOCH duration = {globals.EPOCH_TIME} seconds")
+	globals.DEBUG_LOGGER.debug(f"Processing delay = {globals.PROCESSING_DELAY} seconds")
 
 
 

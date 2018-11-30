@@ -5,7 +5,7 @@
   "buffSize": 100,
   "VMCapacity": 50,
   "ISPCapacity": 5000,
-  "numPortsVM": 20,
+  "numPortsVM": 20, 
   "attackerCapacity": 4000,
   "legitimateTraffic": "simple",
   "epochTime": 10,
