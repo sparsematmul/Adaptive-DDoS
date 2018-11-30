@@ -28,16 +28,18 @@ import logging
 
 def changeCapacity(i,newCap):
 	globals.NUM_VMs[i] = math.floor(newCap*1.0/globals.VM_COMPUTE_CAP)
+	globals.LOCK_INGRESS_CAP[i].acquire()
 	oldCap = globals.INGRESS_CAP[i].cap
 	globals.INGRESS_CAP[i].cap = newCap
 	globals.INGRESS_CAP[i].vmQueue = globals.NUM_PORTS_VM*globals.NUM_VMs[i]*globals.BUFF_SIZE
 	globals.INGRESS_CAP[i].numOfDequeuePkts = globals.NUM_PORTS_VM*globals.NUM_VMs[i]
 	globals.INGRESS_CAP[i].availableBuffSpace = newCap - (oldCap - globals.INGRESS_CAP[i].availableBuffSpace)
-	globals.DEBUG_LOGGER.debug("Function: change Capacity, capacity at ingress %(i) = %(newCap)")
+	globals.DEBUG_LOGGER.debug(f"Function: change Capacity, capacity at ingress {i} = {newCap}")
+	globals.LOCK_INGRESS_CAP[i].release()
 
 
 
-def dynamic_mitigation():
+def dynamicMitigation():
 
 	for i in range(0,globals.INGRESS_LOC):
 		
@@ -54,7 +56,22 @@ def dynamic_mitigation():
 		changeCapacity(i,random.uniform(globals.MIN_TRAFFIC[i],globals.PEAK_TRAFFIC[i]))
 		
 
-def adaptive_mitigation():
+def adaptiveMitigation():
+
+	for i in range(0,globals.INGRESS_LOC):
+		
+		globals.LOCK_CURR_TRAFFIC_STATS[i].acquire()
+		if(globals.CURR_TRAFFIC_STATS[i]["total"] > globals.PEAK_TRAFFIC[i]):
+			globals.PEAK_TRAFFIC[i] = globals.CURR_TRAFFIC_STATUS[i]["total"]
+
+
+		if(globals.CURR_TRAFFIC_STATS[i]["total"] < globals.MIN_TRAFFIC[i]):
+			globals.MIN_TRAFFIC[i] = globals.CURR_TRAFFIC_STATS[i]["total"]
+
+		globals.LOCK_CURR_TRAFFIC_STATS[i].release()
+		changeCapacity(i,random.uniform(globals.MIN_TRAFFIC[i],globals.PEAK_TRAFFIC[i]))
+
+def staticMitigation():
 
 	for i in range(0,globals.INGRESS_LOC):
 		

@@ -17,7 +17,7 @@ def initializeAdaptive():
 		dequeuePkts = globals.NUM_PORTS_VM*globals.NUM_VMs[i]
 		vmCapacity = globals.NUM_VMs[i]*globals.VM_COMPUTE_CAP
 		globals.INGRESS_CAP.append(VM.VM(vmCapacity,queueSize,dequeuePkts,vmCapacity))
-		globals.DEBUG_LOGGER.debug("Function: initializeAdaptive - Initial capacity of ingress %(i) is %(vmCapacity)")
+		globals.DEBUG_LOGGER.debug(f"Function: initializeAdaptive - Initial capacity of ingress {i} is {vmCapacity}")
 
 		# globals.INGRESS_CAP[i] = math.floor(total_num_vms/globals.INGRESS_LOC)
 
@@ -29,31 +29,19 @@ def initialize():
 		initializeAdaptive()
 
 
-def ddosMiddlebox(pkt):
+def diagnose(pkt):
+	detection_diagnosis.diagnoseTraffic(pkt)
+
+
+
+def mitigate():
 	if(globals.DEFENSE_TYPE == "static"):
-		staticDefense(pkt)
+		mitigation_strategy.staticMitigation()
 	elif(globals.DEFENSE_TYPE == "dynamic"):
-		dynamicDefense(pkt)
+		mitigation_strategy.dynamicMitigation()
 	elif(globals.DEFENSE_TYPE == "adaptive"):
-		adaptiveDefense(pkt)
+		mitigation_strategy.adaptiveMitigation()
 
 
 
-
-def staticDefense(pkt):
-
-
-	detection_diagnosis.diagnoseTraffic(pkt)
-	static_mitigation()
-
-
-
-
-def dynamicDefense(pkt):
-	detection_diagnosis.diagnoseTraffic(pkt)
-	mitigation_strategy.dynamic_mitigation()
-
-def adaptiveDefense(pkt):
-	detection_diagnosis.diagnoseTraffic(pkt)
-	mitigation_strategy.dynamic_mitigation()
 

@@ -1,5 +1,0 @@
-2018-11-28 18:21:47,443 - statsLogger - INFO - STATS FOR WINDOW %(str(globals.WINDOW_COUNTER)) - START
-2018-11-28 18:21:47,444 - statsLogger - INFO - Total Traffic at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['total'])
-2018-11-28 18:21:47,444 - statsLogger - INFO - Total UDP Flood at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['udp_flood'])
-2018-11-28 18:21:47,444 - statsLogger - INFO - Total TCP Syn at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['tcp_syn'])
-2018-11-28 18:21:47,444 - statsLogger - INFO - Dropped Packets at ingress %(i) = %(dropped)

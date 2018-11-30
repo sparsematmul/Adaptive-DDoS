@@ -44,8 +44,8 @@ def countDroppedPackets():
 		prevDropCount[i] = globals.legitimateDropCounter[i]
 		globals.LOCK_legitimateDropCounter[i].release()
 		
-		globals.DEBUG_LOGGER.debug("Function: countDroppedPackets, dropped Packets at ingress %(i) are %(dropped)")
-		globals.STATS_LOGGER.info("Dropped Packets at ingress %(i) = %(dropped)")
+		globals.DEBUG_LOGGER.debug(f"Function: countDroppedPackets, dropped Packets at ingress {i} are {dropped}")
+		globals.STATS_LOGGER.info(f"Dropped Packets at ingress {i} = {dropped}")
 
 	# loggings.error('This should go to both console and file')
  
@@ -62,9 +62,9 @@ def wastedResources():
 		globals.LOCK_INGRESS_CAP[i].acquire()
 		wastedCap = receivedPktsPerWIndow*globals.PKT_LEN - globals.INGRESS_CAP[i].cap
 		globals.LOCK_INGRESS_CAP[i].release()
-		
-		globals.DEBUG_LOGGER.debug("Function: wastedResources, wasted resources at ingress %(i) are %(wastedCap)")
-		globals.STATS_LOGGER.info("Wasted resources at ingress %(i) = %(wastedCap)")
+
+		globals.DEBUG_LOGGER.debug(f"Function: wastedResources, wasted resources at ingress {i} are {wastedCap}")
+		globals.STATS_LOGGER.info(f"Wasted resources at ingress {i} = {wastedCap}")
 
 		# print wastedCap
 
