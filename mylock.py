@@ -14,11 +14,9 @@ def initializeIngressLocks():
 		
 
 
-		globals.LOCK_CURR_TRAFFIC_STATS.append({})
-		globals.LOCK_CURR_TRAFFIC_STATS[i]["total"] = lock.Lock()
-		globals.LOCK_CURR_TRAFFIC_STATS[i]["udp_flood"] = lock.Lock()
-		globals.LOCK_CURR_TRAFFIC_STATS[i]["tcp_syn"] = lock.Lock()
-
+		globals.LOCK_CURR_TRAFFIC_STATS.append(lock.Lock())
+	
+	
 		globals.LOCK_legitimateDropCounter.append(lock.Lock())
 		globals.LOCK_RECEIVE_COUNTER.append(lock.Lock())
 

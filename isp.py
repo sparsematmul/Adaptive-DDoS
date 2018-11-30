@@ -61,8 +61,8 @@ def wastedResources():
 
 		globals.LOCK_INGRESS_CAP[i].acquire()
 		wastedCap = receivedPktsPerWIndow*globals.PKT_LEN - globals.INGRESS_CAP[i].cap
-		globals.LOCK_INGRESS_CAP[i].release(
-			)
+		globals.LOCK_INGRESS_CAP[i].release()
+		
 		globals.DEBUG_LOGGER.debug("Function: wastedResources, wasted resources at ingress %(i) are %(wastedCap)")
 		globals.STATS_LOGGER.info("Wasted resources at ingress %(i) = %(wastedCap)")
 

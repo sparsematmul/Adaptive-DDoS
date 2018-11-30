@@ -39,23 +39,19 @@ def startNewWindow():
 
 	for i in range(0,globals.INGRESS_LOC):
 		
-		globals.LOCK_CURR_TRAFFIC_STATS[i]["total"].acquire()
+		globals.LOCK_CURR_TRAFFIC_STATS[i].acquire()
 		globals.PREV_TRAFFIC_STATS[i]["total"] = globals.CURR_TRAFFIC_STATS[i]["total"]
 		globals.STATS_LOGGER.info("Total Traffic at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['total'])")
 		globals.CURR_TRAFFIC_STATS[i]["total"] = 0
-		globals.LOCK_CURR_TRAFFIC_STATS[i]["total"].release()
-
-		globals.LOCK_CURR_TRAFFIC_STATS[i]["udp_flood"].acquire()
+		
 		globals.PREV_TRAFFIC_STATS[i]["udp_flood"] = globals.CURR_TRAFFIC_STATS[i]["udp_flood"]
 		globals.STATS_LOGGER.info("Total UDP Flood at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['udp_flood'])")
 		globals.CURR_TRAFFIC_STATS[i]["udp_flood"] = 0
-		globals.LOCK_CURR_TRAFFIC_STATS[i]["udp_flood"].release()
 
-		globals.LOCK_CURR_TRAFFIC_STATS[i]["tcp_syn"].acquire()
 		globals.PREV_TRAFFIC_STATS[i]["tcp_syn"] = globals.CURR_TRAFFIC_STATS[i]["tcp_syn"]
 		globals.STATS_LOGGER.info("Total TCP Syn at Ingress %(i) = %(globals.CURR_TRAFFIC_STATS[i]['tcp_syn'])")
 		globals.CURR_TRAFFIC_STATS[i]["tcp_syn"] = 0
-		globals.LOCK_CURR_TRAFFIC_STATS[i]["tcp_syn"].release()
+		globals.LOCK_CURR_TRAFFIC_STATS[i].release()
 
 	
 	globals.WINDOW_COUNTER += 1

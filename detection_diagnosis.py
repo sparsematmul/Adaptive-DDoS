@@ -33,9 +33,9 @@ def diagnose_UDP_Flood(pkt):
 
 
 	if(detect_UDP_Flood(pkt)):
-		globals.LOCK_CURR_TRAFFIC_STATS[pkt.ingress]["udp_flood"].acquire()
+		globals.LOCK_CURR_TRAFFIC_STATS[pkt.ingress].acquire()
 		CURR_TRAFFIC_STATS[pkt.ingress]["udp_flood"] += 1
-		globals.LOCK_CURR_TRAFFIC_STATS[pkt.ingress]["udp_flood"].release()
+		globals.LOCK_CURR_TRAFFIC_STATS[pkt.ingress].release()
 
 
 
@@ -43,9 +43,9 @@ def diagnose_TCP_SYN_Flood(pkt):
 
 
 	if(detect_TCP_SYN_Flood(pkt)):
-		globals.LOCK_CURR_TRAFFIC_STATS[pkt.ingress]["tcp_syn"].acquire()
+		globals.LOCK_CURR_TRAFFIC_STATS[pkt.ingress].acquire()
 		CURR_TRAFFIC_STATS[pkt.dst]["tcp_syn"] += 1
-		globals.LOCK_CURR_TRAFFIC_STATS[pkt.ingress]["tcp_syn"].release()
+		globals.LOCK_CURR_TRAFFIC_STATS[pkt.ingress].release()
 
 
 
