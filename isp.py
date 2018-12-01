@@ -5,6 +5,7 @@
 import globals
 import math
 import logging
+import queue
 
 prevDropCount = [0] * globals.INGRESS_LOC
 prevReceiveCount = [0] * globals.INGRESS_LOC
@@ -30,6 +31,9 @@ def initializeISP():
 		globals.RECEIVE_COUNTER.append(0)
 		globals.legitimateDropCounter.append(0)
 		globals.processCounter.append(0)
+
+
+		globals.BUFFER.append(queue.Queue())
 
 		# globals.BUFF_SIZE.append(buff)
 

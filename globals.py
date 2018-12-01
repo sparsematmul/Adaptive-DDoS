@@ -43,6 +43,7 @@ RECEIVE_COUNTER = []
 legitimateDropCounter = []
 processCounter = []
 
+BUFFER = []
 
 STATS_LOGGER = logging.getLogger('statsLogger')
 DEBUG_LOGGER = logging.getLogger('debugLogger')

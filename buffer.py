@@ -3,23 +3,23 @@ import packet
 import threading
 import globals
 import defense
-import queue
+# import queue
 import math
 # import logging
 
 # lock = threading.Lock()
 
-Buffer = queue.Queue()
+# Buffer = queue.Queue()
 
 def enqueuePacket(pkt):
 
-   global Buffer
+  
    globals.LOCK_INGRESS_CAP[pkt.ingress].acquire()
    if ((globals.INGRESS_CAP[pkt.ingress].availableBuffSpace - pkt.packet_len) > 0):
 
       globals.LOCK_RECEIVE_COUNTER[pkt.ingress].acquire()
       globals.RECEIVE_COUNTER[pkt.ingress] +=1
-      Buffer.put(pkt)
+      globals.BUFFER[pkt.ingress].put(pkt)
       globals.INGRESS_CAP[pkt.ingress].availableBuffSpace -= pkt.packet_len
       # globals.DEBUG_LOGGER.debug("Function: enqueuePacket - Packet Added to Queue, Available Buffer space at %(pkt.ingress) = %(globals.INGRESS_CAP[pkt.ingress].availableBuffSpace)" )
       globals.LOCK_RECEIVE_COUNTER[pkt.ingress].release()
@@ -46,7 +46,7 @@ def processPacket():
          globals.LOCK_INGRESS_CAP[i].release()
 
          for j in range(0,int(pktsToDequeue)):
-            pkt = Buffer.get()
+            pkt = globals.BUFFER[i].put(pkt)
             defense.diagnose(pkt)
 
       
