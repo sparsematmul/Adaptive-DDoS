@@ -46,7 +46,7 @@ def processPacket():
          globals.LOCK_INGRESS_CAP[i].release()
 
          for j in range(0,int(pktsToDequeue)):
-            pkt = globals.BUFFER[i].put(pkt)
+            pkt = globals.BUFFER[i].get()
             defense.diagnose(pkt)
 
       
