@@ -18,7 +18,7 @@ NUM_NIC_VM = 10
 ATTACKER_CAP = 60
 LEG_TRAFFIC_MODEL = "simple"
 EPOCH_TIME = 60
-PROCESSING_DELAY = 0.1
+PROCESSING_DELAY = 1
 PKT_LEN = 100*8 / 1000000 #bits
 WINDOW_COUNTER = 0
 
@@ -39,9 +39,9 @@ MIN_TRAFFIC = []
 
 # UDP_DETECTION = 0.9
 
-RECEIVE_COUNTER = [0] * INGRESS_LOC
-legitimateDropCounter = [0] * INGRESS_LOC
-processCounter = [0] * INGRESS_LOC
+RECEIVE_COUNTER = []
+legitimateDropCounter = []
+processCounter = []
 
 
 STATS_LOGGER = logging.getLogger('statsLogger')
