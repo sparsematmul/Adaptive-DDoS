@@ -24,29 +24,46 @@ func NewPacket(l float64, protocol string, ingress int, af bool) packet {
 	p.detection = "benign"
 	return p
 }
-func flowGenBenign(model string) {
+func flowGenBenign(model string, ingress int) {
 	// # _DEBUG.Printf("Function: flowGen")
 	if(model == "simple") {
-		flowGenSimple()
+		flowGenSimple(ingress)
 	}
 }
 
-func sendPkts(n int) {
+func sendPkts(n int, ingress int) {
 	for i := 0 ; i < n ; i++ {
 		// sendtoNetwork(NewPacket(PKT_LEN,"udp",0,0))
-		enqueuePacket(NewPacket(PKT_LEN,"udp",0,false))
+		enqueuePacket(NewPacket(PKT_LEN,"udp",ingress,false))
 	}
 }
 
-func flowGenSimple() {
-	fixedRate := 1000.0 // Mbps
+func flowGenSimple(ingress int) {
+	fixedRate := 2000.0 // Mbps
 	numPkts := int(fixedRate / PKT_LEN)
 	_DEBUG.Printf("Function: flowGenSimple - Number of packets to send in 1 second %d with packet length %f and send rate %f",numPkts, PKT_LEN, fixedRate)
 	for {
-		go sendPkts(numPkts)
+		go sendPkts(numPkts, ingress)
 		time.Sleep(1 * time.Second)
 		// # network.sendtoNetwork(pkt)
 	}
+}
+
+
+func flowGenSimple2(ingress int) {
+	fixedRate := 2000.0 // Mbps
+	numPkts := int(fixedRate / PKT_LEN)
+	_DEBUG.Printf("Function: flowGenSimple - Number of packets to send in 1 second %d with packet length %f and send rate %f",numPkts, PKT_LEN, fixedRate)
+	// for {
+	sendTicker := time.NewTicker(time.Duration(1 * time.Second))
+
+	for {
+	    select {
+	    case <-sendTicker.C:
+	        go sendPkts(numPkts, ingress)
+	    }
+	}
+	
 }
 
 

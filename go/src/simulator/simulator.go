@@ -2,7 +2,7 @@ package main
 
 import (
 	"os"
-	"github.com/golang-collections/go-datastructures/fifo"
+	// "github.com/golang-collections/go-datastructures/fifo"
 	// "fmt"
 	"time"
 	"encoding/json"
@@ -14,13 +14,13 @@ import (
 var (
 	CONFIGURATION Config
 	CURR_TRAFFIC_STATS []map[string]int
-	PREV_TRAFFIC_STATS []map[string]int
+	// PREV_TRAFFIC_STATS []map[string]int
 	PEAK_TRAFFIC []float64
 	MIN_TRAFFIC  []float64
-	RECEIVE_COUNTER []int
+	// RECEIVE_COUNTER []int
 	legitimateDropCounter []int
-	processCounter []int
-	BUFFER []*fifo.Queue
+	// processCounter []int
+	// BUFFER []*fifo.Queue
 	NUM_VMs []int
 	INGRESS_CAP []*VM
 	PKT_LEN float64 = 100.0*8 / 1000000
@@ -36,7 +36,7 @@ var (
 
 func main() {
 
-	runtime.GOMAXPROCS(3)
+	runtime.GOMAXPROCS(4)
 	if(len(os.Args) < 2) {
 		log.Fatal("PLEASE ENTER FILENAME FOR CONFIG")
 	}
@@ -61,11 +61,16 @@ func main() {
 
 	// start legitimate traffic thread
 	_DEBUG.Printf("Start legitimate traffic thread")
-	go flowGenBenign("simple")
-	go flowGenBenign("simple")
-	go flowGenBenign("simple")
+	go flowGenBenign("simple",0)
+	go flowGenBenign("simple",1)
+	go flowGenBenign("simple",0)
+	// go flowGenBenign("simple")
+	// go flowGenBenign("simple")
+	// go flowGenBenign("simple")
 
-	
+
+
+
 
 	// start attack traffic thread
 	// _DEBUG.Printf('Start attack traffic thread')

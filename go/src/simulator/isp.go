@@ -1,12 +1,12 @@
 package main
 
-import "github.com/golang-collections/go-datastructures/fifo"
+// import "github.com/golang-collections/go-datastructures/fifo"
 
 
-var (
-	prevDropCount []int 
-	prevReceiveCount []int
-)
+// var (
+// 	prevDropCount []int 
+// 	prevReceiveCount []int
+// )
 
 
 func initializeISP() {
@@ -16,15 +16,15 @@ func initializeISP() {
 
 	PEAK_TRAFFIC = make([]float64,CONFIGURATION.INGRESS_LOC)
 	MIN_TRAFFIC = make([]float64,CONFIGURATION.INGRESS_LOC)
-	RECEIVE_COUNTER = make([]int,CONFIGURATION.INGRESS_LOC)
+	// RECEIVE_COUNTER = make([]int,CONFIGURATION.INGRESS_LOC)
 	legitimateDropCounter = make([]int,CONFIGURATION.INGRESS_LOC)
 	
-	prevDropCount = make([]int,CONFIGURATION.INGRESS_LOC)
-	prevReceiveCount = make([]int,CONFIGURATION.INGRESS_LOC)
+	// prevDropCount = make([]int,CONFIGURATION.INGRESS_LOC)
+	// prevReceiveCount = make([]int,CONFIGURATION.INGRESS_LOC)
 
-	processCounter = make([]int,CONFIGURATION.INGRESS_LOC)
+	// processCounter = make([]int,CONFIGURATION.INGRESS_LOC)
 	// BUFFER = make ([]fifo.Queue, CONFIGURATION.INGRESS_LOC)
-	BUFFER = make([]*fifo.Queue, CONFIGURATION.INGRESS_LOC)
+	// BUFFER = make([]*fifo.Queue, CONFIGURATION.INGRESS_LOC)
 
 	for i := 0 ; i < CONFIGURATION.INGRESS_LOC ; i++ {
 		var m map[string]int
@@ -35,7 +35,7 @@ func initializeISP() {
 		m["dns_amp"] = 0
 		CURR_TRAFFIC_STATS = append(CURR_TRAFFIC_STATS,m) 
 		// PREV_TRAFFIC_STATS = append(PREV_TRAFFIC_STATS,m)
-		BUFFER[i] = fifo.NewQueue()
+		// BUFFER[i] = fifo.NewQueue()
 		
 	}
 
@@ -48,13 +48,13 @@ func countDroppedPackets() {
 	for i := 0 ; i < CONFIGURATION.INGRESS_LOC ; i++ {
 		
 		LOCK_legitimateDropCounter[i].Lock()
-		dropped := legitimateDropCounter[i] - prevDropCount[i]
-		prevDropCount[i] = legitimateDropCounter[i]
-		
+		dropped := legitimateDropCounter[i]
+		legitimateDropCounter[i] = 0
+		LOCK_legitimateDropCounter[i].Unlock()
 		
 		_DEBUG.Printf("Function: countDroppedPackets, dropped Packets at ingress %d = %d",i, dropped)
-		_INFO.Printf("Dropped Packets at ingress %d = %d",i, dropped)
-		LOCK_legitimateDropCounter[i].Unlock()
+		_INFO.Printf("Dropped_Packets %d ingress %d",dropped,i)
+		
 		// fmt.Printf("%d",dropped)
 	}
 	// # loggings.error('This should go to both console and file')
@@ -66,7 +66,7 @@ func wastedResources(total []map[string]int) {
 		
 		// LOCK_RECEIVE_COUNTER[i].Lock()
 		receivedPktsPerWIndow :=  total[i]["total"]
-		_INFO.Printf("packets received per window at ingress %d = %d Mbps",i, receivedPktsPerWIndow)
+		// _INFO.Printf("packets received per window at ingress %d = %d Mbps",i, receivedPktsPerWIndow)
 
 		// prevReceiveCount[i] = total[i]["total"]
 		// LOCK_RECEIVE_COUNTER[i].Unlock()
@@ -77,8 +77,8 @@ func wastedResources(total []map[string]int) {
 		// fmt.Printf("%f",wastedCap)
 		
 
-		_DEBUG.Printf("Function: wastedResources, wasted resources at ingress %d = %v Mbps",i, wastedCap)
-		_INFO.Printf("Wasted resources at ingress at ingress %d = %v Mbps",i, wastedCap)
+		// _DEBUG.Printf("Function: wastedResources, wasted resources at ingress %d = %v Mbps",i, wastedCap)
+		_INFO.Printf("Wasted_resources_Mbps %v ingress %d",wastedCap,i)
 
 		// # 
 
@@ -94,12 +94,12 @@ func collectStats() {
 	// var total []map[string]int
 	// total = make([]map[string]int, CONFIGURATION.INGRESS_LOC)
  	wastedResources(CURR_TRAFFIC_STATS)
- 	
+
 	for i := 0 ; i < CONFIGURATION.INGRESS_LOC ; i++ {
 		
 		LOCK_CURR_TRAFFIC_STATS[i].Lock()
 		// PREV_TRAFFIC_STATS[i]["total"] = CURR_TRAFFIC_STATS[i]["total"]
-		_INFO.Printf("Total Traffic at Ingress %d = %d", i,CURR_TRAFFIC_STATS[i]["total"])
+		_INFO.Printf("Total_Traffic %d Ingress %d", CURR_TRAFFIC_STATS[i]["total"],i)
 		// total = append(total,CURR_TRAFFIC_STATS[i]["total"])
 		// t := CURR_TRAFFIC_STATS[i]["total"]
 		// copy(total,CURR_TRAFFIC_STATS)
@@ -108,11 +108,11 @@ func collectStats() {
 
 		
 		// PREV_TRAFFIC_STATS[i]["udp_flood"] = CURR_TRAFFIC_STATS[i]["udp_flood"]
-		_INFO.Printf("Total UDP Flood at Ingress %d = %d", i,CURR_TRAFFIC_STATS[i]["udp_flood"])
+		_INFO.Printf("Total_UDP_Flood %d Ingress %d",CURR_TRAFFIC_STATS[i]["udp_flood"],i)
 		CURR_TRAFFIC_STATS[i]["udp_flood"] = 0
 
 		// PREV_TRAFFIC_STATS[i]["tcp_syn"] = CURR_TRAFFIC_STATS[i]["tcp_syn"]
-		_INFO.Printf("Total TCP Syn at Ingress %d = %d", i,CURR_TRAFFIC_STATS[i]["tcp_syn"])
+		_INFO.Printf("Total_TCP_Syn %d Ingress %d", CURR_TRAFFIC_STATS[i]["tcp_syn"], i)
 		CURR_TRAFFIC_STATS[i]["tcp_syn"] = 0
 		LOCK_CURR_TRAFFIC_STATS[i].Unlock()
 

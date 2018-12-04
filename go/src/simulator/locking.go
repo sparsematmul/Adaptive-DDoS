@@ -7,16 +7,16 @@ var (
 	// LOCK_RECEIVE_COUNTER []sync.Mutex
 	LOCK_legitimateDropCounter []sync.Mutex
 	LOCK_INGRESS_CAP []sync.Mutex
-	LOCK_NUM_VM []sync.Mutex
-	LOCK_RECEIVE_COUNTER []sync.Mutex
+	// LOCK_NUM_VM []sync.Mutex
+	// LOCK_RECEIVE_COUNTER []sync.Mutex
 )
 
 func initializeLocks() {
 
 	LOCK_CURR_TRAFFIC_STATS = make([]sync.Mutex, CONFIGURATION.INGRESS_LOC)
 	LOCK_INGRESS_CAP = make([]sync.Mutex, CONFIGURATION.INGRESS_LOC)
-	LOCK_NUM_VM = make([]sync.Mutex, CONFIGURATION.INGRESS_LOC)
-	LOCK_RECEIVE_COUNTER = make([]sync.Mutex, CONFIGURATION.INGRESS_LOC)
+	// LOCK_NUM_VM = make([]sync.Mutex, CONFIGURATION.INGRESS_LOC)
+	// LOCK_RECEIVE_COUNTER = make([]sync.Mutex, CONFIGURATION.INGRESS_LOC)
 	LOCK_legitimateDropCounter = make([]sync.Mutex, CONFIGURATION.INGRESS_LOC)
 	// for i := 0 ; i < CONFIGURATION.INGRESS_LOC ; i++ {
 		
