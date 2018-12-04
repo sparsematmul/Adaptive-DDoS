@@ -15,8 +15,8 @@ func initializeDefense(){
 	for i := 0 ; i < CONFIGURATION.INGRESS_LOC ; i++ {
 		NUM_VMs = append(NUM_VMs,int(total_num_vms*1.0/float64(CONFIGURATION.INGRESS_LOC)))
 		queueSize := float64(CONFIGURATION.NUM_NIC_VM)*float64(NUM_VMs[i])*CONFIGURATION.BUFF_SIZE
-		dequeuePkts := CONFIGURATION.NUM_NIC_VM*NUM_VMs[i]
 		vmCapacity := float64(NUM_VMs[i])*CONFIGURATION.VM_COMPUTE_CAP
+		dequeuePkts := int((float64(CONFIGURATION.NUM_NIC_VM*NUM_VMs[i])*CONFIGURATION.VM_COMPUTE_CAP)/PKT_LEN)
 		INGRESS_CAP = append(INGRESS_CAP, new(VM))
 		INGRESS_CAP[i].cap = vmCapacity
 		INGRESS_CAP[i].vmQueue = queueSize
@@ -25,6 +25,8 @@ func initializeDefense(){
 
 
 		_DEBUG.Printf("Function: initializeAdaptive - Initial capacity of ingress %d = %f", i ,vmCapacity)
+		_DEBUG.Printf("Function: initializeAdaptive - Packets to dequeue at ingress %d = %d", i ,dequeuePkts)
+
 
 		// # CONFIGURATION.INGRESS_CAP[i] = math.floor(total_num_vms/CONFIGURATION.INGRESS_LOC)
 	}

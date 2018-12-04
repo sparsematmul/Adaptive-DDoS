@@ -39,11 +39,11 @@ func sendPkts(n int) {
 }
 
 func flowGenSimple() {
-	fixedRate := 1.0 // Mbps
+	fixedRate := 1000.0 // Mbps
 	numPkts := int(fixedRate / PKT_LEN)
 	_DEBUG.Printf("Function: flowGenSimple - Number of packets to send in 1 second %d with packet length %f and send rate %f",numPkts, PKT_LEN, fixedRate)
 	for {
-		sendPkts(numPkts)
+		go sendPkts(numPkts)
 		time.Sleep(1 * time.Second)
 		// # network.sendtoNetwork(pkt)
 	}

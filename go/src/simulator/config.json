@@ -9,5 +9,5 @@
   "attackerCapacity": 4000,
   "legitimateTraffic": "simple",
   "epochTime": 5,
-  "processingDelay": 0.1
+  "processingDelay": 1
 }

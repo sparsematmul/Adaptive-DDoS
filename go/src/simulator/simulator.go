@@ -62,6 +62,8 @@ func main() {
 	// start legitimate traffic thread
 	_DEBUG.Printf("Start legitimate traffic thread")
 	go flowGenBenign("simple")
+	go flowGenBenign("simple")
+	go flowGenBenign("simple")
 
 	
 
@@ -71,13 +73,13 @@ func main() {
 
 
 	// start dequeuing pkts after delay equivalent to processing delay
-	_DEBUG.Printf("Start packet processing thread - processing delay = %f",CONFIGURATION.PROCESSING_DELAY)
-	_DEBUG.Printf("Start stats collection thread - epoch = %f", EPOCH_TIME)
+	_DEBUG.Printf("Start packet processing thread - processing delay = %f ms",CONFIGURATION.PROCESSING_DELAY)
+	_DEBUG.Printf("Start stats collection thread - epoch = %f s", EPOCH_TIME)
 	// stopProcess = Event()
 	// processingThread = RepeatingThread(stopProcess,PROCESSING_DELAY,"packet processingThread",buffer.processPacket)
 	// processingThread.start()
-	statsTicker := time.NewTicker(10 * time.Second)
-	processTicker := time.NewTicker(1 * time.Millisecond)
+	statsTicker := time.NewTicker(time.Duration(EPOCH_TIME) * time.Second)
+	processTicker := time.NewTicker(time.Duration(CONFIGURATION.PROCESSING_DELAY) * time.Millisecond)
 
 	for {
 	    select {
