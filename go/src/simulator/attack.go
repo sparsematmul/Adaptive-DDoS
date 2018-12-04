@@ -20,7 +20,7 @@ func randIngress() {
 	_DEBUG.Printf("Function: flowGenSimple - Number of packets to send in 1 second %d with packet length %f and send rate %f",numPkts, PKT_LEN, fixedCap)
 	for {
 		go sendToRandIngress(numPkts)
-		time.Sleep(1 * time.Second)
+		time.Sleep(time.Duration(CONFIGURATION.EPOCH_TIME) * time.Second)
 		// # network.sendtoNetwork(pkt)
 	}
 }

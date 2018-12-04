@@ -1,27 +1,30 @@
 package main
 
 
-
+import "math"
 
 func enqueuePacket(pkt packet) {
 
   
+	LOCK_INGRESS_CAP[pkt.ingress].Lock()
 	if ((INGRESS_CAP[pkt.ingress].availableBuffSpace - pkt.packet_len) > 0) {
 
       // LOCK_RECEIVE_COUNTER[pkt.ingress].Lock()
       // RECEIVE_COUNTER[pkt.ingress] +=1
       // LOCK_RECEIVE_COUNTER[pkt.ingress].Unlock()
       
-      LOCK_INGRESS_CAP[pkt.ingress].Lock()
-      INGRESS_CAP[pkt.ingress].availableBuffSpace -= pkt.packet_len
+      
+	  INGRESS_CAP[pkt.ingress].availableBuffSpace -= pkt.packet_len
+	//   _DEBUG.Printf("Function: enqueuePacket - Packet Added to Queue, Available Buffer space at %d = %f", pkt.ingress, INGRESS_CAP[pkt.ingress].availableBuffSpace)
+
       LOCK_INGRESS_CAP[pkt.ingress].Unlock()
       diagnose(pkt)
       // BUFFER[pkt.ingress].Add(pkt)
-      // _DEBUG.Printf("Function: enqueuePacket - Packet Added to Queue, Available Buffer space at %d = %f", pkt.ingress, INGRESS_CAP[pkt.ingress].availableBuffSpace)
       // BUFFER[pkt.ingress] <- pkt   // Send v to channel ch
 
 
    	} else {
+	  LOCK_INGRESS_CAP[pkt.ingress].Unlock()
       dropPacket(pkt)
    	}
    
@@ -64,16 +67,18 @@ func processPacket() {
 		// if(RECEIVE_COUNTER[i] > 0) {
 		 
 		LOCK_INGRESS_CAP[i].Lock()
-		pktsToDequeue := int((INGRESS_CAP[i].cap - INGRESS_CAP[i].availableBuffSpace)/PKT_LEN)
+		pktsToDequeue := int(math.Ceil((INGRESS_CAP[i].vmQueue - INGRESS_CAP[i].availableBuffSpace)/PKT_LEN))
 		if(pktsToDequeue > INGRESS_CAP[i].numOfDequeuePkts) {
 			pktsToDequeue = INGRESS_CAP[i].numOfDequeuePkts
 		}
 		// if(float64(pktsToDequeue)*PKT_LEN > (INGRESS_CAP[i].cap - INGRESS_CAP[i].availableBuffSpace)) {
 			
 		// }
+		// _DEBUG.Printf("Function: processPacket - %d packets processed, Available Buffer space at %d = %f",pktsToDequeue, i, INGRESS_CAP[i].availableBuffSpace)
+
 		INGRESS_CAP[i].availableBuffSpace += (PKT_LEN*float64(pktsToDequeue))
 
-		// _DEBUG.Printf("Function: processPacket - {pktsToDequeue} packets processed, Available Buffer space at %d = %f", i, INGRESS_CAP[i].availableBuffSpace)
+		// _DEBUG.Printf("Function: processPacket - %d packets processed, Available Buffer space at %d = %f",pktsToDequeue, i, INGRESS_CAP[i].availableBuffSpace)
 		LOCK_INGRESS_CAP[i].Unlock()
 		// go dequeuePackets(pktsToDequeue,i)
 			

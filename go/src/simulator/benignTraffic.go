@@ -39,7 +39,7 @@ func sendPkts(n int, ingress int) {
 }
 
 func flowGenSimple(ingress int) {
-	fixedRate := 2000.0 // Mbps
+	fixedRate := 11.0 // Mbps
 	numPkts := int(fixedRate / PKT_LEN)
 	_DEBUG.Printf("Function: flowGenSimple - Number of packets to send in 1 second %d with packet length %f and send rate %f",numPkts, PKT_LEN, fixedRate)
 	for {
@@ -51,7 +51,7 @@ func flowGenSimple(ingress int) {
 
 
 func flowGenSimple2(ingress int) {
-	fixedRate := 2000.0 // Mbps
+	fixedRate := 1000.0 // Mbps
 	numPkts := int(fixedRate / PKT_LEN)
 	_DEBUG.Printf("Function: flowGenSimple - Number of packets to send in 1 second %d with packet length %f and send rate %f",numPkts, PKT_LEN, fixedRate)
 	// for {

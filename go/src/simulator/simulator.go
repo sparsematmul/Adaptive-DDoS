@@ -62,8 +62,8 @@ func main() {
 	// start legitimate traffic thread
 	_DEBUG.Printf("Start legitimate traffic thread")
 	go flowGenBenign("simple",0)
-	go flowGenBenign("simple",1)
 	go flowGenBenign("simple",0)
+	// go flowGenBenign("simple",0)
 	// go flowGenBenign("simple")
 	// go flowGenBenign("simple")
 	// go flowGenBenign("simple")
