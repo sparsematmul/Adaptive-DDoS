@@ -1,12 +1,12 @@
 {
   "attackerType": "randIngress",
-  "defenseType": "adaptive",
-  "ingreeLoc": 1,
-  "buffSize": 1,
-  "VMCapacity": 0.02,
-  "ISPCapacity": 0.02,
+  "defenseType": "dynamic",
+  "ingreeLoc": 10,
+  "buffSize": 1000000,
+  "VMCapacity": 1,
+  "ISPCapacity": 20,
   "numNICsVM": 1, 
-  "attackerCapacity": 4,
+  "attackerCapacity": 2,
   "legitimateTraffic": "simple",
   "epochTime": 5,
   "processingDelay": 1
