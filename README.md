@@ -10,17 +10,19 @@ The DDoS defense system has been designed to be configured in three states: Stat
 
 ## This Repository Contains..
 
-1. config.py -  The conditions necessary to set up the DDoS defense simulator.
-2. packet.py -  The packet class containing information about the length, destination and protocol of the packet, the ingress              								 location it is sent to and also information on whether it is an attack packet or not. 
-3. network.py -  Functionalities to define what happens when the packet arrives in the network.
-4. buffer.py - Handles the enqueing and dequeing and dropping of packets. There is one queue per NIC of the VM. 
-5. globals.py -  Declaration and Initialiazation of the global variables. 
-6. mitigation_strategy.py - The three types of defense models : static, dynamic and adaptive have been defined here.
-7. defense.py - the detection and the mitigation strategy have been defined here. 
-8. detection_diagnosis.py - After detection whether the attack packet is a UDP or a TCP packet the functions for diagnosis of 														the type of attack(UDP flood, SYN flood, DNS amplication) are defined in this file.
+1. attack.go -  The two attack types, randIngress and randAttackMix have been defined here. The former type of attack will send an attack of fixed type, to a different ingress location at every epoch and the latter attack type to send an attack to an ingress location at all epochs but will vary the type of attack.  
+2. benignTraffic.go -  The functions for sending non-attack traffic have been defined in this file. 
+3. buffer.go -  Handles the enqueing and dequeing and dropping of packets. There is one queue per NIC of the VM.
+4. defense.go - The initialization of defenses has been defined.
+5. diagnose.go - This file contains functions to detect and diagnose the TCP-SYN flood, UDP flood and the normal traffic. 
+6. isp.go - Functions to initialze capacity to the ingress locations and to calculate teh dropped packets and wasted resources has been defined here. 
+7. locking.go - Initialization of locks has been done.
+5. logging.go - File that handles the logging. 
+6. mitigate.go - The three types of defense models : static, dynamic and adaptive have been defined here.
+7. simulator.go - The main function is contained in this file.
 
 
 ## Requirement
 
-Python 3.7.0
+Go 1.11.2
 
