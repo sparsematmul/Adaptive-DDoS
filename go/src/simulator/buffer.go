@@ -68,7 +68,7 @@ func processPacket() {
     if BACKLOG==256{
         fmt.Println("Backlog Full")  
     }
-    
+	else{
     s:=time.Now()
     s.Add(time.Second*5)
     backlog[BACKLOG]=s.String()
@@ -86,7 +86,7 @@ func processPacket() {
             
             BACKLOG-=1
         }
-   
+    	}
      }
     
 
